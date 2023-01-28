@@ -1,10 +1,21 @@
 import { useState } from "react";
+import { useQuery, gql } from "@apollo/client";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
 
+const TEST_QUERY = gql`
+  query Test {
+    test {
+      hello
+    }
+  }
+`;
+
 function App() {
   const [count, setCount] = useState(0);
-
+  const { loading, error, data } = useQuery<{ test: { hello: string } }>(
+    TEST_QUERY
+  );
   return (
     <div className="App">
       <div>
@@ -26,6 +37,14 @@ function App() {
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
+      </p>
+      <p>
+        Graphql response:{" "}
+        <b>
+          {loading && "Loading"}
+          {error && "Error"}
+          {data && data.test.hello}
+        </b>
       </p>
     </div>
   );
