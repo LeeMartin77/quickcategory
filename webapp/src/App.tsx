@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
+import { Button } from "@chakra-ui/react";
 
 const TEST_QUERY = gql`
   query Test {
@@ -28,9 +29,12 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <Button
+          colorScheme="blue"
+          onClick={() => setCount((count) => count + 1)}
+        >
           count is {count}
-        </button>
+        </Button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
