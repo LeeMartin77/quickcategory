@@ -4,7 +4,7 @@ import reactLogo from "./assets/react.svg";
 import "./App.css";
 import { Button } from "@chakra-ui/react";
 
-const TEST_QUERY = gql`
+export const TEST_QUERY = gql`
   query Test {
     test {
       hello
