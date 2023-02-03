@@ -4,20 +4,21 @@ Application for quickly categorising data
 
 ## The Data Model
 
-This whole thing is built around neo4j - so need to have some deep thinking on the model.
-
 This initial version is built around the idea of "anon" users
 
 ```mermaid
 erDiagram
+  DatasetItemTypes {
+    string label "May be defined in code"
+    string key "May be defined in code"
+  }
   DataSetAdminKey {
     string id
     string hashed_admin_key
     string hashed_admin_key_salt
   }
-  DataSet ||..|| DataSetAdminKey : has
   DataSetCategorisationKey {
-    string parent_id
+    string dataset_id
     string id
     string label
   }
@@ -25,31 +26,33 @@ erDiagram
     string id
     string name
     string source_file
-    string sector
+    array item_type_keys "ordered strings"
+    array item_labels "ordered strings"
   }
-  DataSet ||--|{ DataSetItem : contains
   DataSetCategory {
-    string parent_id
+    string dataset_id
     string id
     string name
-    string source_file
-    string sector
+  }
+  DataSetItemCategorisation {
+    string id
+    string category_id
+    string item_id
+    string key_id
+  }
+  DataSetItem {
+    string dataset_id
+    string id
+    value array "ordered strings"
   }
   DataSet ||--|{ DataSetCategory : contains
-  DataSetCategory }|--|| DataSetItem : categorised-by
-  DataSet ||..|{ DataSetCategorisationKey : has
+  DataSet ||--|{ DataSetCategorisationKey : has
+  DataSet ||--|| DataSetAdminKey : has
+  DataSet ||--|{ DataSetItem : containsformats
+  DataSetItem ||--|{ DataSetItemCategorisation : categorised-by
+  DataSetCategory ||--|{ DataSetItemCategorisation : using
+  DataSetCategorisationKey ||--|{ DataSetItemCategorisation : categorised
+  DatasetItemTypes ||..|{ DataSet : informs
   DataSetCategory }|..|{ DataSetCategorisationKey : uses
-  DataSetItem {
-    string parent_id
-    string id
-  }
   DataSetCategorisationKey ||..|{ DataSetItem : categorises
-  DataSetItem ||--|{ DataSetItemValue : contains
-  DataSetItemValue {
-    string parent_id
-    string id
-    string type
-    string label
-    string value
-  }
 ```
