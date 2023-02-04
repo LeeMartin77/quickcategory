@@ -1,8 +1,5 @@
-export default `#graphql
-type Test {
-    hello: String
-}
+import test from './test'
 
-type Query {
-    test: Test!
-}`
+export default [
+    test
+]

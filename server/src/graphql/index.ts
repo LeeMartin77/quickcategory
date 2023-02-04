@@ -1,9 +1,7 @@
-import { ApolloServer } from "@apollo/server";
+import resolvers from "./resolvers"
+import schema from "./schema"
 
-import typeDefs from "./schema"
-import resolvers from "./resolvers";
-export const server = new ApolloServer<any>({
-    typeDefs,
-    resolvers,
-  });
-export default server;
+export default {
+    typeDefs: schema,
+    resolvers
+}
