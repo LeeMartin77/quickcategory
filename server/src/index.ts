@@ -3,19 +3,9 @@ import { expressMiddleware } from "@apollo/server/express4";
 import { json } from "body-parser";
 import express from "express";
 import qs from "qs";
+import typeDefs from "./schema"
 
 const port = process.env.QUICKCATEGORY_PORT || 3012;
-
-const typeDefs = `#graphql
-  type Test {
-    hello: String
-  }
-
-  type Query {
-    test: Test!
-  }
-
-`;
 
 const resolvers = {
   Query: {
