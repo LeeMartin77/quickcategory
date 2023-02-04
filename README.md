@@ -13,9 +13,10 @@ erDiagram
     string key "May be defined in code"
   }
   DataSetAdminKey {
+    string dataset_id
     string id
-    string hashed_admin_key
-    string hashed_admin_key_salt
+    string hashed_admin_secret
+    string admin_secret_salt
   }
   DataSetCategorisationKey {
     string dataset_id
@@ -25,7 +26,6 @@ erDiagram
   DataSet {
     string id
     string name
-    string source_file
     array item_type_keys "ordered strings"
     array item_labels "ordered strings"
   }
@@ -35,6 +35,7 @@ erDiagram
     string name
   }
   DataSetItemCategorisation {
+    string dataset_id
     string id
     string category_id
     string item_id
@@ -49,6 +50,7 @@ erDiagram
   DataSet ||--|{ DataSetCategorisationKey : has
   DataSet ||--|| DataSetAdminKey : has
   DataSet ||--|{ DataSetItem : containsformats
+  DataSet ||..|{ DataSetItemCategorisation : owns
   DataSetItem ||--|{ DataSetItemCategorisation : categorised-by
   DataSetCategory ||--|{ DataSetItemCategorisation : using
   DataSetCategorisationKey ||--|{ DataSetItemCategorisation : categorised

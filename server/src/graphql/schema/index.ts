@@ -1,5 +1,9 @@
-import test from './test'
+import dataSet from './dataSet'
+import dataSetItem from './dataSetItem'
+import accessKeys from './accessKeys'
 
 export default [
-    test
+    dataSet,
+    dataSetItem,
+    accessKeys
 ]
