@@ -1,24 +1,10 @@
-import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { json } from "body-parser";
 import express from "express";
 import qs from "qs";
-import typeDefs from "./schema"
+import apollo from "./graphql"
 
 const port = process.env.QUICKCATEGORY_PORT || 3012;
-
-const resolvers = {
-  Query: {
-    test: () => ({
-      hello: "world",
-    }),
-  },
-};
-
-const server = new ApolloServer<any>({
-  typeDefs,
-  resolvers,
-});
 
 const app = express();
 
@@ -27,8 +13,8 @@ app.settings["query parser"] = qs.parse;
 app.use(express.json());
 app.use(express.static("./public"));
 
-server.start().then(() => {
-  app.use("/api/graphql", json(), expressMiddleware(server));
+apollo.start().then(() => {
+  app.use("/api/graphql", json(), expressMiddleware(apollo));
 
   app.get("/api/health", (req, res) => {
     res.send();
@@ -47,7 +33,7 @@ server.start().then(() => {
 
     const cleanup = () => {
       running.close();
-      server.stop();
+      apollo.stop();
     };
 
     process.on("SIGTERM", cleanup);
