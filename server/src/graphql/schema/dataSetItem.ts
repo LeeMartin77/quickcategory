@@ -1,18 +1,9 @@
 export default `#graphql
-type DataSetItemCategorisation {
-    dataset_id: String!
-    id: String!
-    category_id: String!
-    item_id: String!
-    key_id: String!
-}
 type DataSetItem {
     dataset_id: String!
     id: String!
-    """Types for values - sourced from dataset"""
-    types: [String!]!
-    """labels for values - sourced from dataset"""
-    labels: [String!]!
+    """sourced from dataset"""
+    value_info: [DataSetItemValueInfo!]!
     """categories available for item"""
     categories: [DataSetCategory!]!
     """valeus of an item as raw strings"""
@@ -23,9 +14,6 @@ type CategorisationResult {
     success: Boolean
 }
 
-type Query {
-}
-
 input DataSetItemInput {
     value: [String!]!
 }
@@ -33,9 +21,10 @@ input DataSetItemInput {
 type Mutation {
     categoriseItem(categorisationKeyId: String!, itemId: String!, categoryId: String!): CategorisationResult!
 
-    """Relies on pulling admin id and secret from headers"""
-    addDataSetItems(dataset_id: String!, items: [DataSetItemInput!]!): [DataSetItem!]!
-    """Relies on pulling admin id and secret from headers - Returns deletion count"""
-    deleteDataSetItems(dataset_id: String!, item_ids: [String!]!): Int!
+    getItemToCategorise(categorisationKeyId: String!): DataSetItem
+
+    addDataSetItems(accessId: String!, accessSecret: String! datasetId: String!, items: [DataSetItemInput!]!): [DataSetItem!]!
+    """Returns deletion count"""
+    deleteDataSetItems(accessId: String!, accessSecret: String! datasetId: String!, item_ids: [String!]!): Int!
 }
-`
+`;

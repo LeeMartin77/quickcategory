@@ -11,14 +11,13 @@ type DataSetCategorisationKey {
 }
 
 type Query {
-    """Relies on pulling admin key and secret from headers"""
-    datasetAdminKey: DataSetAdminKey!
+    datasetAdminKey(accessId: String!, accessSecret: String!): DataSetAdminKey!
 }
 
 type Mutation {
     """Relies on pulling admin id and secret from headers"""
-    addCategorisationKey(dataset_id: String!, label: String!): DataSetCategorisationKey!
-    updateCategorisationKey(dataset_id: String!, id: String!, label: String!): DataSetCategorisationKey!
-    deleteCategorisationKey(dataset_id: String!, id: String!): Boolean!
+    addCategorisationKey(accessId: String!, accessSecret: String! datasetId: String!, label: String!): DataSetCategorisationKey!
+    updateCategorisationKey(accessId: String!, accessSecret: String! datasetId: String!, id: String!, label: String!): DataSetCategorisationKey!
+    deleteCategorisationKey(accessId: String!, accessSecret: String! datasetId: String!, id: String!): Boolean!
 }
-`
+`;

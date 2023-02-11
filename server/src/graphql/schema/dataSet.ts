@@ -2,11 +2,34 @@ export default `#graphql
 type DataSet {
     id: String!
     name: String!
-    item_type_keys: [String!]!
-    item_labels: [String!]!
+    value_info: [DataSetItemValueInfo!]!
     categories: [DataSetCategory!]!
+    categorisations: [DataSetItemCategorisation!]!
+    categorisation_keys: [DataSetCategorisationKey!]!
+    """TODO: Will definitely need pagination"""
+    items: [DataSetItem!]!
     item_count: Int!
 }
+
+type DataSetItemCategorisation {
+    dataset_id: String!
+    id: String!
+    item_id: String!
+    item: DataSetItem!
+    key_id: String!
+    """Can be nullable if key is deleted"""
+    key: DataSetCategorisationKey
+    category_id: String!
+    """Can be nullable if category is deleted"""
+    category: DataSetCategory
+}
+
+type DataSetItemValueInfo {
+    index: Int!
+    type: String!
+    label: String!
+}
+
 type DataSetCategory {
     dataset_id: String!
     id: String!
@@ -20,11 +43,10 @@ type CreateDataSetResponse {
 }
 
 type Mutation {
-    createDataset(name: String!, itemWidth: Int!, itemTypeKeys: [String!], itemLabels: [String!]): CreateDataSetResponse!
+    createAnonymousDataset(name: String!, itemWidth: Int!, itemTypeKeys: [String!], itemLabels: [String!]): CreateDataSetResponse!
     
-    """Relies on pulling admin id and secret from headers"""
-    addDatasetCategory(dataset_id: String!, categoryName: String!): DataSetCategory!
-    updateDatasetCategory(dataset_id: String!, id: String!, categoryName: String!): DataSetCategory!
-    deleteDatasetCategory(dataset_id: String!, categoryName: String!): Boolean!
+    addDatasetCategory(accessId: String!, accessSecret: String! datasetId: String!, categoryName: String!): DataSetCategory!
+    updateDatasetCategory(accessId: String!, accessSecret: String! datasetId: String!, id: String!, categoryName: String!): DataSetCategory!
+    deleteDatasetCategory(accessId: String!, accessSecret: String! datasetId: String!, categoryName: String!): Boolean!
 }
-`
+`;
