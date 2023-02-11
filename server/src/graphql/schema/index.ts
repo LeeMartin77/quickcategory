@@ -1,9 +1,4 @@
-import dataSet from './dataSet'
-import dataSetItem from './dataSetItem'
-import accessKeys from './accessKeys'
+import administration from "./administration";
+import common from "./common";
 
-export default [
-    dataSet,
-    dataSetItem,
-    accessKeys
-]
+export default [administration, common];
