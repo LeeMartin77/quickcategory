@@ -27,17 +27,17 @@ type DataSetItemCategorisation {
     dataset_id: String!
     id: String!
     item_id: String!
-    item: DataSetItem!
     key_id: String!
-    """Can be nullable if key is deleted"""
-    key: DataSetCategorisationKey
     category_id: String!
-    """Can be nullable if category is deleted"""
-    category: DataSetCategory
 }
 
 input DataSetItemInput {
     value: [String!]!
+}
+
+input DataSetAdminKeyInput {
+  accessId: String!
+  accessSecret: String!
 }
 
 type CreateDataSetResponse {
@@ -47,22 +47,22 @@ type CreateDataSetResponse {
 }
 
 type Query {
-    datasetAdminKey(accessId: String!, accessSecret: String!): DataSetAdminKey!
+    datasetAdminKey(access: DataSetAdminKeyInput!): DataSetAdminKey!
 }
 
 type Mutation {
   createAnonymousDataset(name: String!, itemWidth: Int!, itemTypeKeys: [String!], itemLabels: [String!]): CreateDataSetResponse!
     
-  addDatasetCategory(accessId: String!, accessSecret: String! datasetId: String!, categoryName: String!): DataSetCategory!
-  updateDatasetCategory(accessId: String!, accessSecret: String! datasetId: String!, id: String!, categoryName: String!): DataSetCategory!
-  deleteDatasetCategory(accessId: String!, accessSecret: String! datasetId: String!, categoryName: String!): Boolean!
+  addDatasetCategory(access: DataSetAdminKeyInput!, datasetId: String!, categoryName: String!): DataSetCategory!
+  updateDatasetCategory(access: DataSetAdminKeyInput!, datasetId: String!, id: String!, categoryName: String!): DataSetCategory!
+  deleteDatasetCategory(access: DataSetAdminKeyInput!, datasetId: String!, categoryName: String!): Boolean!
 
-  addCategorisationKey(accessId: String!, accessSecret: String! datasetId: String!, label: String!): DataSetCategorisationKey!
-  updateCategorisationKey(accessId: String!, accessSecret: String! datasetId: String!, id: String!, label: String!): DataSetCategorisationKey!
-  deleteCategorisationKey(accessId: String!, accessSecret: String! datasetId: String!, id: String!): Boolean!
+  addCategorisationKey(access: DataSetAdminKeyInput!, datasetId: String!, label: String!): DataSetCategorisationKey!
+  updateCategorisationKey(access: DataSetAdminKeyInput!, datasetId: String!, id: String!, label: String!): DataSetCategorisationKey!
+  deleteCategorisationKey(access: DataSetAdminKeyInput!, datasetId: String!, id: String!): Boolean!
 
-  addDataSetItems(accessId: String!, accessSecret: String! datasetId: String!, items: [DataSetItemInput!]!): [DataSetItem!]!
+  addDataSetItems(access: DataSetAdminKeyInput!, datasetId: String!, items: [DataSetItemInput!]!): [DataSetItem!]!
   """Returns deletion count"""
-  deleteDataSetItems(accessId: String!, accessSecret: String! datasetId: String!, item_ids: [String!]!): Int!
+  deleteDataSetItems(access: DataSetAdminKeyInput!, datasetId: String!, item_ids: [String!]!): Int!
 }
 `;
