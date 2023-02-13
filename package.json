@@ -1,9 +1,15 @@
 {
-  "dependencies": {
-    "typescript": "^4.9.3"
+  "scripts": {
+    "lint": "eslint ."
   },
-  "workspaces":[
+  "workspaces": [
     "server",
     "webapp"
-  ]
+  ],
+  "devDependencies": {
+    "typescript": "^4.9.3",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
+    "@typescript-eslint/parser": "^5.52.0",
+    "eslint": "^8.34.0"
+  }
 }

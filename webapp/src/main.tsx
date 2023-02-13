@@ -7,16 +7,16 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
 
 const client = new ApolloClient({
-  uri: "/api/graphql",
-  cache: new InMemoryCache(),
+    uri: "/api/graphql",
+    cache: new InMemoryCache(),
 });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <ChakraProvider>
-    <ApolloProvider client={client}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ApolloProvider>
-  </ChakraProvider>
+    <ChakraProvider>
+        <ApolloProvider client={client}>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </ApolloProvider>
+    </ChakraProvider>
 );

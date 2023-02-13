@@ -6,17 +6,18 @@ export interface StorageDrivers {
 }
 
 const AVAILABLE_STORAGES: StorageDrivers = {
-  sqlite3,
+    sqlite3,
 };
 
 let setupStorage = AVAILABLE_STORAGES.sqlite3;
 
 switch (process.env.QUICKCATEGORY_STORAGE_PROVIDER) {
-  case "sqlite3":
+case "sqlite3":
     setupStorage = AVAILABLE_STORAGES.sqlite3;
-  case undefined:
     break;
-  default:
+case undefined:
+    break;
+default:
     throw new Error("Not Implemented");
 }
 

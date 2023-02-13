@@ -4,13 +4,13 @@ import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 
 test("landing on a bad page", () => {
-  const badRoute = "/some/bad/route";
+    const badRoute = "/some/bad/route";
 
-  render(
-    <MemoryRouter initialEntries={[badRoute]}>
-      <App />
-    </MemoryRouter>
-  );
+    render(
+        <MemoryRouter initialEntries={[badRoute]}>
+            <App />
+        </MemoryRouter>
+    );
 
-  expect(screen.getByText(/Not Found/i)).toBeInTheDocument();
+    expect(screen.getByText(/Not Found/i)).toBeInTheDocument();
 });
