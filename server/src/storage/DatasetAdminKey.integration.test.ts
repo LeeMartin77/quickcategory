@@ -15,7 +15,8 @@ describe.each(configs)(
             await config.afterAllTeardown(testClient);
         });
         test("Happy Path :: Creates, Reads, Deletes", async () => {
-            const startRes = await config.storage.datasetAdminKey.readAdminKey(randomUUID(), testClient);
+            const startRes = await config.storage.datasetAdminKey
+                .readAdminKey(randomUUID(), testClient);
             expect(isNotFoundError(startRes._unsafeUnwrapErr())).toBeTruthy();
             const fakeKey: Parameters<StoreDatasetAdminKey>[0] = {
                 dataset_id: randomUUID(),
@@ -23,17 +24,23 @@ describe.each(configs)(
                 admin_secret_salt: randomUUID()
             };
 
-            const storedIdRes = await config.storage.datasetAdminKey.storeAdminKey(fakeKey, testClient);
+            const storedIdRes = await config.storage.datasetAdminKey
+                .storeAdminKey(fakeKey, testClient);
             expect(storedIdRes.isOk()).toBeTruthy();
             const storedId = storedIdRes._unsafeUnwrap();
-            const storedRes = await config.storage.datasetAdminKey.readAdminKey(storedId, testClient);
+            const storedRes = await config.storage.datasetAdminKey
+                .readAdminKey(storedId, testClient);
             expect(storedRes.isOk()).toBeTruthy();
             const stored = storedRes._unsafeUnwrap();
             expect(stored).toEqual({ id: storedId, ...fakeKey});
 
-            expect((await config.storage.datasetAdminKey.deleteAdminKey(stored.dataset_id, testClient)).isOk()).toBeTruthy();
+            expect((
+                await config.storage.datasetAdminKey
+                    .deleteAdminKey(stored.dataset_id, testClient)
+            ).isOk()).toBeTruthy();
 
-            const endRes = await config.storage.datasetAdminKey.readAdminKey(storedId, testClient);
+            const endRes = await config.storage.datasetAdminKey
+                .readAdminKey(storedId, testClient);
             expect(isNotFoundError(endRes._unsafeUnwrapErr())).toBeTruthy();
         });
     }

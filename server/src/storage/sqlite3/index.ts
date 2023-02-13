@@ -16,7 +16,7 @@ export async function setupDatabase(knex: Knex = knexInstance) {
     const migrations = [
         `CREATE TABLE IF NOT EXISTS dataset_admin_key 
   (
-    dataset_id TEXT, --UUID 
+    dataset_id TEXT PRIMARY KEY, --UUID 
     id TEXT,
     hashed_admin_secret TEXT,
     admin_secret_salt TEXT
