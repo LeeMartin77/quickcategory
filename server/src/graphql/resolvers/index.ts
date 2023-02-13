@@ -1,12 +1,12 @@
 import { Resolvers } from "../types";
 
 const unimplemented_resolvers: Resolvers = {
-  DataSetAdminKey: {
+  DatasetAdminKey: {
     data_set: () => {
       throw new Error("Not Implemented");
     },
   },
-  DataSet: {
+  Dataset: {
     value_info: () => {
       throw new Error("Not Implemented");
     },
@@ -26,7 +26,7 @@ const unimplemented_resolvers: Resolvers = {
       throw new Error("Not Implemented");
     },
   },
-  DataSetItem: {
+  DatasetItem: {
     value_info: () => {
       throw new Error("Not Implemented");
     },
@@ -43,7 +43,7 @@ const unimplemented_resolvers: Resolvers = {
     addCategorisationKey: () => {
       throw new Error("Not Implemented");
     },
-    addDataSetItems: () => {
+    addDatasetItems: () => {
       throw new Error("Not Implemented");
     },
     addDatasetCategory: () => {
@@ -58,7 +58,7 @@ const unimplemented_resolvers: Resolvers = {
     deleteCategorisationKey: () => {
       throw new Error("Not Implemented");
     },
-    deleteDataSetItems: () => {
+    deleteDatasetItems: () => {
       throw new Error("Not Implemented");
     },
     deleteDatasetCategory: () => {

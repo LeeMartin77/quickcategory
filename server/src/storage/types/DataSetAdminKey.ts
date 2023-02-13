@@ -1,26 +1,26 @@
 import { StorageError } from "./StorageErrors";
 
-export type DataSetAdminKey = {
+export type DatasetAdminKey = {
   dataset_id: string,
   id: string,
   hashed_admin_secret: string,
   admin_secret_salt: string
 }
 
-export type StoreDataSetAdminKey = (
-  key: Omit<DataSetAdminKey, "id">
-) => Promise<DataSetAdminKey["id"] | StorageError>;
+export type StoreDatasetAdminKey = (
+  key: Omit<DatasetAdminKey, "id">
+) => Promise<DatasetAdminKey["id"] | StorageError>;
 
-export type DeleteDataSetAdminKey = (
-  datasetId: DataSetAdminKey["dataset_id"]
+export type DeleteDatasetAdminKey = (
+  datasetId: DatasetAdminKey["dataset_id"]
 ) => Promise<boolean | StorageError>;
 
-export type RetreiveDataSetAdminKey = (
-  id: DataSetAdminKey["id"]
-) => Promise<DataSetAdminKey | StorageError>;
+export type RetreiveDatasetAdminKey = (
+  id: DatasetAdminKey["id"]
+) => Promise<DatasetAdminKey | StorageError>;
 
 export interface ConfigurationStorage {
-  storeAdminKey: StoreDataSetAdminKey;
-  deleteAdminKey: DeleteDataSetAdminKey;
-  readAdminKey: RetreiveDataSetAdminKey;
+  storeAdminKey: StoreDatasetAdminKey;
+  deleteAdminKey: DeleteDatasetAdminKey;
+  readAdminKey: RetreiveDatasetAdminKey;
 }

@@ -19,66 +19,66 @@ export type CategorisationResult = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
-export type CreateDataSetResponse = {
-  __typename?: 'CreateDataSetResponse';
+export type CreateDatasetResponse = {
+  __typename?: 'CreateDatasetResponse';
   accessId: Scalars['String'];
   accessSecret: Scalars['String'];
   id: Scalars['String'];
 };
 
-export type DataSet = {
-  __typename?: 'DataSet';
-  categories: Array<DataSetCategory>;
-  categorisation_keys: Array<DataSetCategorisationKey>;
-  categorisations: Array<DataSetItemCategorisation>;
+export type Dataset = {
+  __typename?: 'Dataset';
+  categories: Array<DatasetCategory>;
+  categorisation_keys: Array<DatasetCategorisationKey>;
+  categorisations: Array<DatasetItemCategorisation>;
   id: Scalars['String'];
   item_count: Scalars['Int'];
   /** TODO: Will definitely need pagination */
-  items: Array<DataSetItem>;
+  items: Array<DatasetItem>;
   name: Scalars['String'];
-  value_info: Array<DataSetItemValueInfo>;
+  value_info: Array<DatasetItemValueInfo>;
 };
 
-export type DataSetAdminKey = {
-  __typename?: 'DataSetAdminKey';
-  data_set: DataSet;
+export type DatasetAdminKey = {
+  __typename?: 'DatasetAdminKey';
+  data_set: Dataset;
   dataset_id: Scalars['String'];
   id: Scalars['String'];
 };
 
-export type DataSetAdminKeyInput = {
+export type DatasetAdminKeyInput = {
   accessId: Scalars['String'];
   accessSecret: Scalars['String'];
 };
 
-export type DataSetCategorisationKey = {
-  __typename?: 'DataSetCategorisationKey';
+export type DatasetCategorisationKey = {
+  __typename?: 'DatasetCategorisationKey';
   dataset_id: Scalars['String'];
   id: Scalars['String'];
   label: Scalars['String'];
 };
 
-export type DataSetCategory = {
-  __typename?: 'DataSetCategory';
+export type DatasetCategory = {
+  __typename?: 'DatasetCategory';
   dataset_id: Scalars['String'];
   id: Scalars['String'];
   name: Scalars['String'];
 };
 
-export type DataSetItem = {
-  __typename?: 'DataSetItem';
+export type DatasetItem = {
+  __typename?: 'DatasetItem';
   /** categories available for item */
-  categories: Array<DataSetCategory>;
+  categories: Array<DatasetCategory>;
   dataset_id: Scalars['String'];
   id: Scalars['String'];
   /** valeus of an item as raw strings */
   value: Array<Scalars['String']>;
   /** sourced from dataset */
-  value_info: Array<DataSetItemValueInfo>;
+  value_info: Array<DatasetItemValueInfo>;
 };
 
-export type DataSetItemCategorisation = {
-  __typename?: 'DataSetItemCategorisation';
+export type DatasetItemCategorisation = {
+  __typename?: 'DatasetItemCategorisation';
   category_id: Scalars['String'];
   dataset_id: Scalars['String'];
   id: Scalars['String'];
@@ -86,12 +86,12 @@ export type DataSetItemCategorisation = {
   key_id: Scalars['String'];
 };
 
-export type DataSetItemInput = {
+export type DatasetItemInput = {
   value: Array<Scalars['String']>;
 };
 
-export type DataSetItemValueInfo = {
-  __typename?: 'DataSetItemValueInfo';
+export type DatasetItemValueInfo = {
+  __typename?: 'DatasetItemValueInfo';
   index: Scalars['Int'];
   label: Scalars['String'];
   type: Scalars['String'];
@@ -99,39 +99,39 @@ export type DataSetItemValueInfo = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addCategorisationKey: DataSetCategorisationKey;
-  addDataSetItems: Array<DataSetItem>;
-  addDatasetCategory: DataSetCategory;
+  addCategorisationKey: DatasetCategorisationKey;
+  addDatasetCategory: DatasetCategory;
+  addDatasetItems: Array<DatasetItem>;
   categoriseItem: CategorisationResult;
-  createAnonymousDataset: CreateDataSetResponse;
+  createAnonymousDataset: CreateDatasetResponse;
   deleteCategorisationKey: Scalars['Boolean'];
-  /** Returns deletion count */
-  deleteDataSetItems: Scalars['Int'];
   deleteDatasetCategory: Scalars['Boolean'];
-  getItemToCategorise?: Maybe<DataSetItem>;
-  updateCategorisationKey: DataSetCategorisationKey;
-  updateDatasetCategory: DataSetCategory;
+  /** Returns deletion count */
+  deleteDatasetItems: Scalars['Int'];
+  getItemToCategorise?: Maybe<DatasetItem>;
+  updateCategorisationKey: DatasetCategorisationKey;
+  updateDatasetCategory: DatasetCategory;
 };
 
 
 export type MutationAddCategorisationKeyArgs = {
-  access: DataSetAdminKeyInput;
+  access: DatasetAdminKeyInput;
   datasetId: Scalars['String'];
   label: Scalars['String'];
 };
 
 
-export type MutationAddDataSetItemsArgs = {
-  access: DataSetAdminKeyInput;
+export type MutationAddDatasetCategoryArgs = {
+  access: DatasetAdminKeyInput;
+  categoryName: Scalars['String'];
   datasetId: Scalars['String'];
-  items: Array<DataSetItemInput>;
 };
 
 
-export type MutationAddDatasetCategoryArgs = {
-  access: DataSetAdminKeyInput;
-  categoryName: Scalars['String'];
+export type MutationAddDatasetItemsArgs = {
+  access: DatasetAdminKeyInput;
   datasetId: Scalars['String'];
+  items: Array<DatasetItemInput>;
 };
 
 
@@ -151,23 +151,23 @@ export type MutationCreateAnonymousDatasetArgs = {
 
 
 export type MutationDeleteCategorisationKeyArgs = {
-  access: DataSetAdminKeyInput;
+  access: DatasetAdminKeyInput;
   datasetId: Scalars['String'];
   id: Scalars['String'];
 };
 
 
-export type MutationDeleteDataSetItemsArgs = {
-  access: DataSetAdminKeyInput;
+export type MutationDeleteDatasetCategoryArgs = {
+  access: DatasetAdminKeyInput;
+  categoryName: Scalars['String'];
   datasetId: Scalars['String'];
-  item_ids: Array<Scalars['String']>;
 };
 
 
-export type MutationDeleteDatasetCategoryArgs = {
-  access: DataSetAdminKeyInput;
-  categoryName: Scalars['String'];
+export type MutationDeleteDatasetItemsArgs = {
+  access: DatasetAdminKeyInput;
   datasetId: Scalars['String'];
+  item_ids: Array<Scalars['String']>;
 };
 
 
@@ -177,7 +177,7 @@ export type MutationGetItemToCategoriseArgs = {
 
 
 export type MutationUpdateCategorisationKeyArgs = {
-  access: DataSetAdminKeyInput;
+  access: DatasetAdminKeyInput;
   datasetId: Scalars['String'];
   id: Scalars['String'];
   label: Scalars['String'];
@@ -185,7 +185,7 @@ export type MutationUpdateCategorisationKeyArgs = {
 
 
 export type MutationUpdateDatasetCategoryArgs = {
-  access: DataSetAdminKeyInput;
+  access: DatasetAdminKeyInput;
   categoryName: Scalars['String'];
   datasetId: Scalars['String'];
   id: Scalars['String'];
@@ -193,12 +193,12 @@ export type MutationUpdateDatasetCategoryArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  datasetAdminKey: DataSetAdminKey;
+  datasetAdminKey: DatasetAdminKey;
 };
 
 
 export type QueryDatasetAdminKeyArgs = {
-  access: DataSetAdminKeyInput;
+  access: DatasetAdminKeyInput;
 };
 
 
@@ -272,16 +272,16 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CategorisationResult: ResolverTypeWrapper<CategorisationResult>;
-  CreateDataSetResponse: ResolverTypeWrapper<CreateDataSetResponse>;
-  DataSet: ResolverTypeWrapper<DataSet>;
-  DataSetAdminKey: ResolverTypeWrapper<DataSetAdminKey>;
-  DataSetAdminKeyInput: DataSetAdminKeyInput;
-  DataSetCategorisationKey: ResolverTypeWrapper<DataSetCategorisationKey>;
-  DataSetCategory: ResolverTypeWrapper<DataSetCategory>;
-  DataSetItem: ResolverTypeWrapper<DataSetItem>;
-  DataSetItemCategorisation: ResolverTypeWrapper<DataSetItemCategorisation>;
-  DataSetItemInput: DataSetItemInput;
-  DataSetItemValueInfo: ResolverTypeWrapper<DataSetItemValueInfo>;
+  CreateDatasetResponse: ResolverTypeWrapper<CreateDatasetResponse>;
+  Dataset: ResolverTypeWrapper<Dataset>;
+  DatasetAdminKey: ResolverTypeWrapper<DatasetAdminKey>;
+  DatasetAdminKeyInput: DatasetAdminKeyInput;
+  DatasetCategorisationKey: ResolverTypeWrapper<DatasetCategorisationKey>;
+  DatasetCategory: ResolverTypeWrapper<DatasetCategory>;
+  DatasetItem: ResolverTypeWrapper<DatasetItem>;
+  DatasetItemCategorisation: ResolverTypeWrapper<DatasetItemCategorisation>;
+  DatasetItemInput: DatasetItemInput;
+  DatasetItemValueInfo: ResolverTypeWrapper<DatasetItemValueInfo>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
@@ -292,16 +292,16 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   CategorisationResult: CategorisationResult;
-  CreateDataSetResponse: CreateDataSetResponse;
-  DataSet: DataSet;
-  DataSetAdminKey: DataSetAdminKey;
-  DataSetAdminKeyInput: DataSetAdminKeyInput;
-  DataSetCategorisationKey: DataSetCategorisationKey;
-  DataSetCategory: DataSetCategory;
-  DataSetItem: DataSetItem;
-  DataSetItemCategorisation: DataSetItemCategorisation;
-  DataSetItemInput: DataSetItemInput;
-  DataSetItemValueInfo: DataSetItemValueInfo;
+  CreateDatasetResponse: CreateDatasetResponse;
+  Dataset: Dataset;
+  DatasetAdminKey: DatasetAdminKey;
+  DatasetAdminKeyInput: DatasetAdminKeyInput;
+  DatasetCategorisationKey: DatasetCategorisationKey;
+  DatasetCategory: DatasetCategory;
+  DatasetItem: DatasetItem;
+  DatasetItemCategorisation: DatasetItemCategorisation;
+  DatasetItemInput: DatasetItemInput;
+  DatasetItemValueInfo: DatasetItemValueInfo;
   Int: Scalars['Int'];
   Mutation: {};
   Query: {};
@@ -313,56 +313,56 @@ export type CategorisationResultResolvers<ContextType = any, ParentType extends 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateDataSetResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['CreateDataSetResponse'] = ResolversParentTypes['CreateDataSetResponse']> = {
+export type CreateDatasetResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['CreateDatasetResponse'] = ResolversParentTypes['CreateDatasetResponse']> = {
   accessId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   accessSecret?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DataSetResolvers<ContextType = any, ParentType extends ResolversParentTypes['DataSet'] = ResolversParentTypes['DataSet']> = {
-  categories?: Resolver<Array<ResolversTypes['DataSetCategory']>, ParentType, ContextType>;
-  categorisation_keys?: Resolver<Array<ResolversTypes['DataSetCategorisationKey']>, ParentType, ContextType>;
-  categorisations?: Resolver<Array<ResolversTypes['DataSetItemCategorisation']>, ParentType, ContextType>;
+export type DatasetResolvers<ContextType = any, ParentType extends ResolversParentTypes['Dataset'] = ResolversParentTypes['Dataset']> = {
+  categories?: Resolver<Array<ResolversTypes['DatasetCategory']>, ParentType, ContextType>;
+  categorisation_keys?: Resolver<Array<ResolversTypes['DatasetCategorisationKey']>, ParentType, ContextType>;
+  categorisations?: Resolver<Array<ResolversTypes['DatasetItemCategorisation']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   item_count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  items?: Resolver<Array<ResolversTypes['DataSetItem']>, ParentType, ContextType>;
+  items?: Resolver<Array<ResolversTypes['DatasetItem']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  value_info?: Resolver<Array<ResolversTypes['DataSetItemValueInfo']>, ParentType, ContextType>;
+  value_info?: Resolver<Array<ResolversTypes['DatasetItemValueInfo']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DataSetAdminKeyResolvers<ContextType = any, ParentType extends ResolversParentTypes['DataSetAdminKey'] = ResolversParentTypes['DataSetAdminKey']> = {
-  data_set?: Resolver<ResolversTypes['DataSet'], ParentType, ContextType>;
+export type DatasetAdminKeyResolvers<ContextType = any, ParentType extends ResolversParentTypes['DatasetAdminKey'] = ResolversParentTypes['DatasetAdminKey']> = {
+  data_set?: Resolver<ResolversTypes['Dataset'], ParentType, ContextType>;
   dataset_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DataSetCategorisationKeyResolvers<ContextType = any, ParentType extends ResolversParentTypes['DataSetCategorisationKey'] = ResolversParentTypes['DataSetCategorisationKey']> = {
+export type DatasetCategorisationKeyResolvers<ContextType = any, ParentType extends ResolversParentTypes['DatasetCategorisationKey'] = ResolversParentTypes['DatasetCategorisationKey']> = {
   dataset_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DataSetCategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['DataSetCategory'] = ResolversParentTypes['DataSetCategory']> = {
+export type DatasetCategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['DatasetCategory'] = ResolversParentTypes['DatasetCategory']> = {
   dataset_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DataSetItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['DataSetItem'] = ResolversParentTypes['DataSetItem']> = {
-  categories?: Resolver<Array<ResolversTypes['DataSetCategory']>, ParentType, ContextType>;
+export type DatasetItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['DatasetItem'] = ResolversParentTypes['DatasetItem']> = {
+  categories?: Resolver<Array<ResolversTypes['DatasetCategory']>, ParentType, ContextType>;
   dataset_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   value?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  value_info?: Resolver<Array<ResolversTypes['DataSetItemValueInfo']>, ParentType, ContextType>;
+  value_info?: Resolver<Array<ResolversTypes['DatasetItemValueInfo']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DataSetItemCategorisationResolvers<ContextType = any, ParentType extends ResolversParentTypes['DataSetItemCategorisation'] = ResolversParentTypes['DataSetItemCategorisation']> = {
+export type DatasetItemCategorisationResolvers<ContextType = any, ParentType extends ResolversParentTypes['DatasetItemCategorisation'] = ResolversParentTypes['DatasetItemCategorisation']> = {
   category_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   dataset_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -371,7 +371,7 @@ export type DataSetItemCategorisationResolvers<ContextType = any, ParentType ext
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DataSetItemValueInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['DataSetItemValueInfo'] = ResolversParentTypes['DataSetItemValueInfo']> = {
+export type DatasetItemValueInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['DatasetItemValueInfo'] = ResolversParentTypes['DatasetItemValueInfo']> = {
   index?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -379,33 +379,33 @@ export type DataSetItemValueInfoResolvers<ContextType = any, ParentType extends 
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addCategorisationKey?: Resolver<ResolversTypes['DataSetCategorisationKey'], ParentType, ContextType, RequireFields<MutationAddCategorisationKeyArgs, 'access' | 'datasetId' | 'label'>>;
-  addDataSetItems?: Resolver<Array<ResolversTypes['DataSetItem']>, ParentType, ContextType, RequireFields<MutationAddDataSetItemsArgs, 'access' | 'datasetId' | 'items'>>;
-  addDatasetCategory?: Resolver<ResolversTypes['DataSetCategory'], ParentType, ContextType, RequireFields<MutationAddDatasetCategoryArgs, 'access' | 'categoryName' | 'datasetId'>>;
+  addCategorisationKey?: Resolver<ResolversTypes['DatasetCategorisationKey'], ParentType, ContextType, RequireFields<MutationAddCategorisationKeyArgs, 'access' | 'datasetId' | 'label'>>;
+  addDatasetCategory?: Resolver<ResolversTypes['DatasetCategory'], ParentType, ContextType, RequireFields<MutationAddDatasetCategoryArgs, 'access' | 'categoryName' | 'datasetId'>>;
+  addDatasetItems?: Resolver<Array<ResolversTypes['DatasetItem']>, ParentType, ContextType, RequireFields<MutationAddDatasetItemsArgs, 'access' | 'datasetId' | 'items'>>;
   categoriseItem?: Resolver<ResolversTypes['CategorisationResult'], ParentType, ContextType, RequireFields<MutationCategoriseItemArgs, 'categorisationKeyId' | 'categoryId' | 'itemId'>>;
-  createAnonymousDataset?: Resolver<ResolversTypes['CreateDataSetResponse'], ParentType, ContextType, RequireFields<MutationCreateAnonymousDatasetArgs, 'itemWidth' | 'name'>>;
+  createAnonymousDataset?: Resolver<ResolversTypes['CreateDatasetResponse'], ParentType, ContextType, RequireFields<MutationCreateAnonymousDatasetArgs, 'itemWidth' | 'name'>>;
   deleteCategorisationKey?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteCategorisationKeyArgs, 'access' | 'datasetId' | 'id'>>;
-  deleteDataSetItems?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationDeleteDataSetItemsArgs, 'access' | 'datasetId' | 'item_ids'>>;
   deleteDatasetCategory?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteDatasetCategoryArgs, 'access' | 'categoryName' | 'datasetId'>>;
-  getItemToCategorise?: Resolver<Maybe<ResolversTypes['DataSetItem']>, ParentType, ContextType, RequireFields<MutationGetItemToCategoriseArgs, 'categorisationKeyId'>>;
-  updateCategorisationKey?: Resolver<ResolversTypes['DataSetCategorisationKey'], ParentType, ContextType, RequireFields<MutationUpdateCategorisationKeyArgs, 'access' | 'datasetId' | 'id' | 'label'>>;
-  updateDatasetCategory?: Resolver<ResolversTypes['DataSetCategory'], ParentType, ContextType, RequireFields<MutationUpdateDatasetCategoryArgs, 'access' | 'categoryName' | 'datasetId' | 'id'>>;
+  deleteDatasetItems?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationDeleteDatasetItemsArgs, 'access' | 'datasetId' | 'item_ids'>>;
+  getItemToCategorise?: Resolver<Maybe<ResolversTypes['DatasetItem']>, ParentType, ContextType, RequireFields<MutationGetItemToCategoriseArgs, 'categorisationKeyId'>>;
+  updateCategorisationKey?: Resolver<ResolversTypes['DatasetCategorisationKey'], ParentType, ContextType, RequireFields<MutationUpdateCategorisationKeyArgs, 'access' | 'datasetId' | 'id' | 'label'>>;
+  updateDatasetCategory?: Resolver<ResolversTypes['DatasetCategory'], ParentType, ContextType, RequireFields<MutationUpdateDatasetCategoryArgs, 'access' | 'categoryName' | 'datasetId' | 'id'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  datasetAdminKey?: Resolver<ResolversTypes['DataSetAdminKey'], ParentType, ContextType, RequireFields<QueryDatasetAdminKeyArgs, 'access'>>;
+  datasetAdminKey?: Resolver<ResolversTypes['DatasetAdminKey'], ParentType, ContextType, RequireFields<QueryDatasetAdminKeyArgs, 'access'>>;
 };
 
 export type Resolvers<ContextType = any> = {
   CategorisationResult?: CategorisationResultResolvers<ContextType>;
-  CreateDataSetResponse?: CreateDataSetResponseResolvers<ContextType>;
-  DataSet?: DataSetResolvers<ContextType>;
-  DataSetAdminKey?: DataSetAdminKeyResolvers<ContextType>;
-  DataSetCategorisationKey?: DataSetCategorisationKeyResolvers<ContextType>;
-  DataSetCategory?: DataSetCategoryResolvers<ContextType>;
-  DataSetItem?: DataSetItemResolvers<ContextType>;
-  DataSetItemCategorisation?: DataSetItemCategorisationResolvers<ContextType>;
-  DataSetItemValueInfo?: DataSetItemValueInfoResolvers<ContextType>;
+  CreateDatasetResponse?: CreateDatasetResponseResolvers<ContextType>;
+  Dataset?: DatasetResolvers<ContextType>;
+  DatasetAdminKey?: DatasetAdminKeyResolvers<ContextType>;
+  DatasetCategorisationKey?: DatasetCategorisationKeyResolvers<ContextType>;
+  DatasetCategory?: DatasetCategoryResolvers<ContextType>;
+  DatasetItem?: DatasetItemResolvers<ContextType>;
+  DatasetItemCategorisation?: DatasetItemCategorisationResolvers<ContextType>;
+  DatasetItemValueInfo?: DatasetItemValueInfoResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };

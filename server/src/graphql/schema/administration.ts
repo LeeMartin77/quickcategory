@@ -1,29 +1,29 @@
 export default `#graphql
-type DataSetAdminKey {
+type DatasetAdminKey {
     dataset_id: String!
     id: String!
-    data_set: DataSet!
+    data_set: Dataset!
 }
 
-type DataSet {
+type Dataset {
     id: String!
     name: String!
-    value_info: [DataSetItemValueInfo!]!
-    categories: [DataSetCategory!]!
-    categorisations: [DataSetItemCategorisation!]!
-    categorisation_keys: [DataSetCategorisationKey!]!
+    value_info: [DatasetItemValueInfo!]!
+    categories: [DatasetCategory!]!
+    categorisations: [DatasetItemCategorisation!]!
+    categorisation_keys: [DatasetCategorisationKey!]!
     """TODO: Will definitely need pagination"""
-    items: [DataSetItem!]!
+    items: [DatasetItem!]!
     item_count: Int!
 }
 
-type DataSetCategorisationKey {
+type DatasetCategorisationKey {
     dataset_id: String!
     id: String!
     label: String!
 }
 
-type DataSetItemCategorisation {
+type DatasetItemCategorisation {
     dataset_id: String!
     id: String!
     item_id: String!
@@ -31,38 +31,38 @@ type DataSetItemCategorisation {
     category_id: String!
 }
 
-input DataSetItemInput {
+input DatasetItemInput {
     value: [String!]!
 }
 
-input DataSetAdminKeyInput {
+input DatasetAdminKeyInput {
   accessId: String!
   accessSecret: String!
 }
 
-type CreateDataSetResponse {
+type CreateDatasetResponse {
     id: String!
     accessId: String!
     accessSecret: String!
 }
 
 type Query {
-    datasetAdminKey(access: DataSetAdminKeyInput!): DataSetAdminKey!
+    datasetAdminKey(access: DatasetAdminKeyInput!): DatasetAdminKey!
 }
 
 type Mutation {
-  createAnonymousDataset(name: String!, itemWidth: Int!, itemTypeKeys: [String!], itemLabels: [String!]): CreateDataSetResponse!
+  createAnonymousDataset(name: String!, itemWidth: Int!, itemTypeKeys: [String!], itemLabels: [String!]): CreateDatasetResponse!
     
-  addDatasetCategory(access: DataSetAdminKeyInput!, datasetId: String!, categoryName: String!): DataSetCategory!
-  updateDatasetCategory(access: DataSetAdminKeyInput!, datasetId: String!, id: String!, categoryName: String!): DataSetCategory!
-  deleteDatasetCategory(access: DataSetAdminKeyInput!, datasetId: String!, categoryName: String!): Boolean!
+  addDatasetCategory(access: DatasetAdminKeyInput!, datasetId: String!, categoryName: String!): DatasetCategory!
+  updateDatasetCategory(access: DatasetAdminKeyInput!, datasetId: String!, id: String!, categoryName: String!): DatasetCategory!
+  deleteDatasetCategory(access: DatasetAdminKeyInput!, datasetId: String!, categoryName: String!): Boolean!
 
-  addCategorisationKey(access: DataSetAdminKeyInput!, datasetId: String!, label: String!): DataSetCategorisationKey!
-  updateCategorisationKey(access: DataSetAdminKeyInput!, datasetId: String!, id: String!, label: String!): DataSetCategorisationKey!
-  deleteCategorisationKey(access: DataSetAdminKeyInput!, datasetId: String!, id: String!): Boolean!
+  addCategorisationKey(access: DatasetAdminKeyInput!, datasetId: String!, label: String!): DatasetCategorisationKey!
+  updateCategorisationKey(access: DatasetAdminKeyInput!, datasetId: String!, id: String!, label: String!): DatasetCategorisationKey!
+  deleteCategorisationKey(access: DatasetAdminKeyInput!, datasetId: String!, id: String!): Boolean!
 
-  addDataSetItems(access: DataSetAdminKeyInput!, datasetId: String!, items: [DataSetItemInput!]!): [DataSetItem!]!
+  addDatasetItems(access: DatasetAdminKeyInput!, datasetId: String!, items: [DatasetItemInput!]!): [DatasetItem!]!
   """Returns deletion count"""
-  deleteDataSetItems(access: DataSetAdminKeyInput!, datasetId: String!, item_ids: [String!]!): Int!
+  deleteDatasetItems(access: DatasetAdminKeyInput!, datasetId: String!, item_ids: [String!]!): Int!
 }
 `;

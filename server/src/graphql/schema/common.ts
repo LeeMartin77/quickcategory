@@ -1,22 +1,22 @@
 export default `#graphql
-type DataSetItem {
+type DatasetItem {
     dataset_id: String!
     id: String!
     """sourced from dataset"""
-    value_info: [DataSetItemValueInfo!]!
+    value_info: [DatasetItemValueInfo!]!
     """categories available for item"""
-    categories: [DataSetCategory!]!
+    categories: [DatasetCategory!]!
     """valeus of an item as raw strings"""
     value: [String!]!
 }
 
-type DataSetItemValueInfo {
+type DatasetItemValueInfo {
     index: Int!
     type: String!
     label: String!
 }
 
-type DataSetCategory {
+type DatasetCategory {
     dataset_id: String!
     id: String!
     name: String!
@@ -29,6 +29,6 @@ type CategorisationResult {
 type Mutation {
     categoriseItem(categorisationKeyId: String!, itemId: String!, categoryId: String!): CategorisationResult!
 
-    getItemToCategorise(categorisationKeyId: String!): DataSetItem
+    getItemToCategorise(categorisationKeyId: String!): DatasetItem
 }
 `;
