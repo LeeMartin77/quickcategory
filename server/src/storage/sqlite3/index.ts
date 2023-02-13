@@ -1,4 +1,6 @@
 import knex, { Knex } from "knex";
+import { StorageType } from "../interfaces";
+import * as datasetAdminKey from "./DatasetAdminKeyStorageFunctions"
 
 export const DEFAULT_CLIENT_CONFIG: Knex.Config = {
   client: "better-sqlite3",
@@ -29,8 +31,9 @@ export async function shutdownDatabase(knex: Knex = knexInstance) {
   await knex.destroy();
 }
 
-export const sqlite3 = {
+export const sqlite3: StorageType = {
   //StorageType
   setupDatabase,
   shutdownDatabase,
+  datasetAdminKey
 };

@@ -1,3 +1,4 @@
+import { ResultAsync } from "neverthrow";
 import { StorageError } from "./StorageErrors";
 
 export type DatasetAdminKey = {
@@ -8,18 +9,21 @@ export type DatasetAdminKey = {
 }
 
 export type StoreDatasetAdminKey = (
-  key: Omit<DatasetAdminKey, "id">
-) => Promise<DatasetAdminKey["id"] | StorageError>;
+  key: Omit<DatasetAdminKey, "id">,
+  client?: any
+) => ResultAsync<DatasetAdminKey["id"], StorageError>;
 
 export type DeleteDatasetAdminKey = (
-  datasetId: DatasetAdminKey["dataset_id"]
-) => Promise<boolean | StorageError>;
+  datasetId: DatasetAdminKey["dataset_id"],
+  client?: any
+) => ResultAsync<boolean, StorageError>;
 
 export type RetreiveDatasetAdminKey = (
-  id: DatasetAdminKey["id"]
-) => Promise<DatasetAdminKey | StorageError>;
+  id: DatasetAdminKey["id"],
+  client?: any
+) => ResultAsync<DatasetAdminKey, StorageError>;
 
-export interface ConfigurationStorage {
+export interface DatasetAdminKeyStorage {
   storeAdminKey: StoreDatasetAdminKey;
   deleteAdminKey: DeleteDatasetAdminKey;
   readAdminKey: RetreiveDatasetAdminKey;
