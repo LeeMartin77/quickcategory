@@ -31,13 +31,13 @@ erDiagram
   }
   DatasetCategory {
     string dataset_id
-    string id
+    string key
     string name
   }
   DatasetItemCategorisation {
     string dataset_id
     string id
-    string category_id
+    string category_key
     string item_id
     string key_id
   }
