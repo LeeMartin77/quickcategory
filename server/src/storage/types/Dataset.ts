@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ResultAsync } from "neverthrow";
 import { StorageError } from "./StorageErrors";
+import { Ordered } from "./Utility";
 
 export type Dataset = {
   id: string,
@@ -8,11 +9,6 @@ export type Dataset = {
   item_type_keys: Ordered<string>,
   item_labels: Ordered<string>
 }
-
-export type Ordered<T> = {
-    index: number,
-    value: T
-}[]
 
 export type StoreDataset = (
   dataset: Omit<Dataset, "id">,
