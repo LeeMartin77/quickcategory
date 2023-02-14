@@ -1,9 +1,10 @@
 import { Knex } from "knex";
 import { knexInstance } from ".";
 import * as D from "../types/Dataset";
-import { NotFoundError, SystemError, isNotFoundError } from "../types/StorageErrors";
+import { NotFoundError, SystemError, isNotFoundError, ValidationError } from "../types/StorageErrors";
 import { randomUUID } from "crypto";
-import { ResultAsync } from "neverthrow";
+import { errAsync, ResultAsync } from "neverthrow";
+import { isValidDataset, isValidDatasetUpdate } from "../validation/DatasetValidation";
 
 type SQLiteDataset = {
     id: string;
@@ -17,6 +18,9 @@ export const storeDataset: D.StoreDataset = (
     dataset,
     knex: Knex = knexInstance
 ) => {
+    if (!isValidDataset(dataset)) {
+        return errAsync(new ValidationError());
+    }
     const { item_labels, item_type_keys, ...rest} = dataset;
 
     const newDataset: SQLiteDataset = { 
@@ -37,6 +41,9 @@ export const updateDataset: D.UpdateDataset = (
     updates,
     knex: Knex = knexInstance
 ) => {
+    if (!isValidDatasetUpdate(updates)) {
+        return errAsync(new ValidationError());
+    }
     const partial = Object.entries(updates)
         .filter(u => u[1] != undefined)
         .reduce((acc, curr) => { 

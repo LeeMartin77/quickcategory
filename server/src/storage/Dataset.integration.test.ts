@@ -20,14 +20,20 @@ describe.each(configs)(
             expect(isNotFoundError(startRes._unsafeUnwrapErr())).toBeTruthy();
             const datasetInsert: Parameters<StoreDataset>[0] = {
                 name: "SomeDatasetName",
-                item_type_keys: {
+                item_type_keys: [{
                     index: 0,
                     value: randomUUID()
-                },
-                item_labels: {
+                },{
+                    index: 1,
+                    value: randomUUID()
+                }],
+                item_labels: [{
                     index: 0,
                     value: randomUUID()
-                }
+                },{
+                    index: 1,
+                    value: randomUUID()
+                }]
             };
 
             const storedIdRes = await config.storage.dataset
@@ -43,9 +49,11 @@ describe.each(configs)(
             const updatedName = "Updated Dataset Name";
             //eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { name, ...untouched } = datasetInsert;
-            await config.storage.dataset.updateDataset(storedId, {
+            const res = await config.storage.dataset.updateDataset(storedId, {
                 name: updatedName
             }, testClient);
+
+            expect(res.isOk()).toBeTruthy();
 
             const storedUpdatedRes = await config.storage.dataset
                 .readDataset(storedId, testClient);

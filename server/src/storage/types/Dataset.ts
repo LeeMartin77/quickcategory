@@ -12,7 +12,7 @@ export type Dataset = {
 export type Ordered<T> = {
     index: number,
     value: T
-}
+}[]
 
 export type StoreDataset = (
   dataset: Omit<Dataset, "id">,
