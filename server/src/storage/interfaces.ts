@@ -2,6 +2,7 @@ import { DatasetStorage } from "./types/Dataset";
 import { DatasetAdminKeyStorage } from "./types/DatasetAdminKey";
 import { DatasetCategorisationKeyStorage } from "./types/DatasetCategorisationKey";
 import { DatasetCategoryStorage } from "./types/DatasetCategory";
+import { DatasetItemStorage } from "./types/DatasetItem";
 
 export interface StorageType {
   setupDatabase: () => Promise<void>;
@@ -10,4 +11,5 @@ export interface StorageType {
   datasetAdminKey: DatasetAdminKeyStorage;
   datasetCategorisationKey: DatasetCategorisationKeyStorage;
   datasetCategory: DatasetCategoryStorage;
+  datasetItem: DatasetItemStorage;
 }

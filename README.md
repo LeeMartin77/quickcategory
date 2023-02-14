@@ -44,7 +44,7 @@ erDiagram
   DatasetItem {
     string dataset_id
     string id
-    value array "ordered strings"
+    values array "ordered strings"
   }
   Dataset ||--|{ DatasetCategory : contains
   Dataset ||--|{ DatasetCategorisationKey : has

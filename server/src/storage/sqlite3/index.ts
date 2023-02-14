@@ -4,6 +4,7 @@ import * as dataset from "./DatasetStorageFunctions";
 import * as datasetAdminKey from "./DatasetAdminKeyStorageFunctions";
 import * as datasetCategorisationKey from "./DatasetCategorisationKeyStorageFunctions";
 import * as datasetCategory from "./DatasetCategoryStorageFunctions";
+import * as datasetItem from "./DatasetItemStorageFunctions";
 
 export const DEFAULT_CLIENT_CONFIG: Knex.Config = {
     client: "better-sqlite3",
@@ -43,6 +44,12 @@ export async function setupDatabase(knex: Knex = knexInstance) {
             key TEXT, --UUID 
             name TEXT
         );`,
+        `CREATE TABLE IF NOT EXISTS dataset_item 
+        (
+            dataset_id TEXT, --UUID 
+            id TEXT, --UUID 
+            values_string TEXT
+        );`,
     ];
     for (const migration of migrations) {
         await knex.raw(migration);
@@ -60,5 +67,6 @@ export const sqlite3: StorageType = {
     dataset,
     datasetAdminKey,
     datasetCategorisationKey,
-    datasetCategory
+    datasetCategory,
+    datasetItem
 };
