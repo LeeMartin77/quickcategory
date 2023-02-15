@@ -37,12 +37,17 @@ export const readCategorisations: DIC.RetreiveDatasetCategorisations = (
     filters,
     knex: Knex = knexInstance
 ) => {
+    const query = knex.select<DIC.DatasetItemCategorisation[]>()
+        .from("dataset_item_categorisation")
+        .where("dataset_id", datasetId);
+    if (filters) {
+        Object.entries(filters).forEach(([key, val])=> {
+            query.andWhere(key, val);
+        });
+    }
     return ResultAsync.fromPromise(
-        knex.select<DIC.DatasetItemCategorisation[]>()
-            .from("dataset_item_categorisation")
-            .where("dataset_id", datasetId)
-            .then(res => {
-                return res;
-            }), 
+        query.then(res => {
+            return res;
+        }), 
         () => new SystemError());
 };
