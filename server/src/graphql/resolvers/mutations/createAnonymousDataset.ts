@@ -1,4 +1,4 @@
-import { GQLContext, MutationCreateAnonymousDatasetArgs, RequireFields } from "../../types";
+import { GQLContext, MutationCreateAnonymousDatasetArgs } from "../../types";
 import { createHash, randomBytes } from "node:crypto";
 
 function randomStringOfLength(length: number): string {
@@ -10,7 +10,8 @@ function randomStringOfLength(length: number): string {
 }
 
 export const createAnonymousDataset = 
-    async (_: object, { name, itemWidth, itemLabels, itemTypeKeys }: RequireFields<MutationCreateAnonymousDatasetArgs, "itemWidth" | "name">, context: GQLContext) => {
+    // eslint-disable-next-line max-len
+    async (_: object, { name, itemLabels, itemTypeKeys }: MutationCreateAnonymousDatasetArgs, context: GQLContext) => {
         const storageRes = await context.dataSources
             .storage.storage.dataset.storeDataset({
                 name,

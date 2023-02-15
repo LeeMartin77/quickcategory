@@ -145,7 +145,6 @@ export type MutationCategoriseItemArgs = {
 export type MutationCreateAnonymousDatasetArgs = {
   itemLabels: Array<Scalars['String']>;
   itemTypeKeys: Array<Scalars['String']>;
-  itemWidth: Scalars['Int'];
   name: Scalars['String'];
 };
 
@@ -383,7 +382,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addDatasetCategory?: Resolver<ResolversTypes['DatasetCategory'], ParentType, ContextType, RequireFields<MutationAddDatasetCategoryArgs, 'access' | 'categoryName' | 'datasetId'>>;
   addDatasetItems?: Resolver<Array<ResolversTypes['DatasetItem']>, ParentType, ContextType, RequireFields<MutationAddDatasetItemsArgs, 'access' | 'datasetId' | 'items'>>;
   categoriseItem?: Resolver<ResolversTypes['CategorisationResult'], ParentType, ContextType, RequireFields<MutationCategoriseItemArgs, 'categorisationKeyId' | 'categoryId' | 'itemId'>>;
-  createAnonymousDataset?: Resolver<ResolversTypes['CreateDatasetResponse'], ParentType, ContextType, RequireFields<MutationCreateAnonymousDatasetArgs, 'itemLabels' | 'itemTypeKeys' | 'itemWidth' | 'name'>>;
+  createAnonymousDataset?: Resolver<ResolversTypes['CreateDatasetResponse'], ParentType, ContextType, RequireFields<MutationCreateAnonymousDatasetArgs, 'itemLabels' | 'itemTypeKeys' | 'name'>>;
   deleteCategorisationKey?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteCategorisationKeyArgs, 'access' | 'datasetId' | 'id'>>;
   deleteDatasetCategory?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteDatasetCategoryArgs, 'access' | 'categoryName' | 'datasetId'>>;
   deleteDatasetItems?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationDeleteDatasetItemsArgs, 'access' | 'datasetId' | 'item_ids'>>;
