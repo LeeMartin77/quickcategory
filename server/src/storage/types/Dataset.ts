@@ -27,7 +27,7 @@ export type DeleteDataset = (
 ) => ResultAsync<boolean, StorageError>;
 
 export type RetreiveDataset = (
-  ids: [Dataset["id"]],
+  ids: Dataset["id"][],
   client?: any
 ) => ResultAsync<Dataset[], StorageError>;
 

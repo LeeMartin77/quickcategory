@@ -22,7 +22,7 @@ export type DeleteDatasetItemCategorisation = (
 ) => ResultAsync<boolean, StorageError>;
 
 export type RetreiveDatasetCategorisations = (
-  dataset_ids: [DatasetItemCategorisation["dataset_id"]],
+  dataset_ids: DatasetItemCategorisation["dataset_id"][],
   filters?: Partial<Pick<DatasetItemCategorisation, "category_key" | "item_id" | "key_id">>,
   client?: any
 ) => ResultAsync<DatasetItemCategorisation[], StorageError>;

@@ -20,7 +20,7 @@ export type DeleteDatasetAdminKey = (
 ) => ResultAsync<boolean, StorageError>;
 
 export type RetreiveDatasetAdminKey = (
-  ids: [DatasetAdminKey["id"]],
+  ids: DatasetAdminKey["id"][],
   client?: any
 ) => ResultAsync<DatasetAdminKey[], StorageError>;
 

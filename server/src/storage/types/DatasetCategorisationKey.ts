@@ -20,7 +20,7 @@ export type DeleteDatasetCategorisationKey = (
 ) => ResultAsync<boolean, StorageError>;
 
 export type RetreiveDatasetCategorisationKey = (
-  ids: [DatasetCategorisationKey["id"]],
+  ids: DatasetCategorisationKey["id"][],
   client?: any
 ) => ResultAsync<DatasetCategorisationKey[], StorageError>;
 
