@@ -112,4 +112,28 @@ describe("StorageDatasource :: Integration using SQLite3", () => {
             .getDatasetItemsForDatasetId(inserts[1].dataset_id);
         expect(loaded1.map(x => x.dataset_id)).toEqual([inserts[1].dataset_id]);
     });
+    test("DatasetCategorisationKey Batch Loaded", async () => {
+        // Create a pair of datasets:
+        const inserts = [randomUUID(), randomUUID()].map((dataset_id) => ({
+            dataset_id,
+            label: randomUUID()
+        }));
+        
+        const insertedId0 = (await STORAGE.datasetCategorisationKey
+            .storeCategorisationKey(inserts[0])
+        )._unsafeUnwrap();
+        const insertedId1 = (await STORAGE.datasetCategorisationKey
+            .storeCategorisationKey(inserts[1])
+        )._unsafeUnwrap();
+
+        const datasource = new StorageDatasource(STORAGE);
+
+        const loaded0 = await datasource
+            .getDatasetCategorisationKeyForId(insertedId0);
+        expect(loaded0.dataset_id).toEqual(inserts[0].dataset_id);
+
+        const loaded1 = await datasource
+            .getDatasetCategorisationKeyForId(insertedId1);
+        expect(loaded1.dataset_id).toEqual(inserts[1].dataset_id);
+    });
 });

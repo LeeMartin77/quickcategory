@@ -2,7 +2,9 @@ import DataLoader from "dataloader";
 import { StorageType } from "../../storage/interfaces";
 import { Dataset } from "../../storage/types/Dataset";
 import { DatasetAdminKey } from "../../storage/types/DatasetAdminKey";
+import { DatasetCategorisationKey } from "../../storage/types/DatasetCategorisationKey";
 import { DatasetCategory } from "../../storage/types/DatasetCategory";
+import { DatasetItem } from "../../storage/types/DatasetItem";
 
 // This is a bit any-heavy, it just saves me some annoying boilerplate
 // And I don't fancy spending my life fighting types
@@ -71,13 +73,20 @@ export class StorageDatasource {
         return this._batchDatasetAdminKey.load(id);
     }
 
+    public async getDatasetCategorisationKeyForId(id: string): 
+        Promise<DatasetCategorisationKey> {
+        return this._batchDatasetCategorisationKey.load(id);
+    }
+
     public async getDatasetCategoriesForDatasetId(dataset_id: string): 
         Promise<DatasetCategory[]> {
         return this._batchDatasetCategory.load(dataset_id);
     }
 
+    // TODO: This needs pagination...
     public async getDatasetItemsForDatasetId(dataset_id: string): 
-        Promise<DatasetCategory[]> {
+        Promise<DatasetItem[]> {
         return this._batchDatasetItem.load(dataset_id);
     }
+
 }
