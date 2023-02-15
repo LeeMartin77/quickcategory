@@ -28,6 +28,7 @@ const generateBasicDataLoader = (
 };
 
 const generateBasicMultiDataLoader = (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     strg: any,
     entity: keyof Omit<StorageType, "setupDatabase"|"shutdownDatabase">, 
     fnc: string, 

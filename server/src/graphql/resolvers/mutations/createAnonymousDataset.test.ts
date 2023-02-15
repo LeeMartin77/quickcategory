@@ -32,7 +32,8 @@ describe("createAnonymousDataset", () => {
             itemLabels: ["label one", "label two"],
             itemTypeKeys: ["string", "date"]
         };
-        
+
+        // eslint-disable-next-line max-len
         const {accessId, accessSecret, id} = await createAnonymousDataset({}, args, fakeContext);
 
         expect(storeDataset).toBeCalledWith({
