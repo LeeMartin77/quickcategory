@@ -56,13 +56,13 @@ export const deleteItem: DI.DeleteDatasetItem = (
 };
 
 export const readItems: DI.RetreiveDatasetItems = (
-    datasetId,
+    datasetIds,
     knex: Knex = knexInstance
 ) => {
     return ResultAsync.fromPromise(
         knex.select<SQLiteDatasetItem[]>()
             .from("dataset_item")
-            .where("dataset_id", datasetId)
+            .whereIn("dataset_id", datasetIds)
             .then(res => {
                 return res.map(item => {
                     const { values_string, ...rest} = item;
