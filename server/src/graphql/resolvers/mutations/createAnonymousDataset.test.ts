@@ -1,5 +1,5 @@
 import { ok } from "neverthrow";
-import { createHash } from "node:crypto";
+import { hashWithSalt } from "../../../utilities";
 import { GQLContext } from "../../types";
 import { createAnonymousDataset } from "./createAnonymousDataset";
 
@@ -55,6 +55,6 @@ describe("createAnonymousDataset", () => {
         const salt = storeAdminKey.mock.calls[0][0].admin_secret_salt;
 
         expect(storeAdminKey.mock.calls[0][0].hashed_admin_secret)
-            .toBe(createHash("sha3-256").update(accessSecret + salt).digest("base64"));
+            .toBe(hashWithSalt(accessSecret, salt));
     });
 });

@@ -1,5 +1,6 @@
 import { GQLContext, MutationCreateAnonymousDatasetArgs } from "../../types";
-import { createHash, randomBytes } from "node:crypto";
+import { randomBytes } from "node:crypto";
+import { hashWithSalt } from "../../../utilities";
 
 function randomStringOfLength(length: number): string {
     return randomBytes(Math.ceil(length * 3 / 4))
@@ -27,7 +28,7 @@ export const createAnonymousDataset =
         const secret = randomStringOfLength(20);
         const salt = randomStringOfLength(10);
 
-        const hash = createHash("sha3-256").update(secret + salt).digest("base64");
+        const hash = hashWithSalt(secret, salt);
 
         const adminKeyRes = await context.dataSources
             .storage.storage.datasetAdminKey.storeAdminKey({
