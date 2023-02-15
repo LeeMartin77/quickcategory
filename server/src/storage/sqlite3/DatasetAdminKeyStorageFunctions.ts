@@ -27,19 +27,12 @@ export const deleteAdminKey: DAK.DeleteDatasetAdminKey = (
     }), () => new SystemError());
 };
 export const readAdminKey: DAK.RetreiveDatasetAdminKey = (
-    id,
+    ids,
     knex: Knex = knexInstance
 ) => {
-    return ResultAsync.fromPromise(knex.select<DAK.DatasetAdminKey>().from("dataset_admin_key").where("id", id).first()
+    return ResultAsync.fromPromise(knex.select<DAK.DatasetAdminKey[]>().from("dataset_admin_key").whereIn("id", ids)
         .then(res => {
-            if (!res) {
-                throw new NotFoundError();
-            }
             return res;
-        }), (err) => {
-        if (isNotFoundError(err)) {
-            return err;
-        }
-        return new SystemError();
-    });
+        }), () => new SystemError()
+    );
 };

@@ -24,6 +24,7 @@ export const storeCategorisationKey: DCK.StoreDatasetCategorisationKey = (
 };
 export const deleteCategorisationKey: DCK.DeleteDatasetCategorisationKey = (
     datasetId,
+    id,
     knex: Knex = knexInstance
 ) => {
     return ResultAsync.fromPromise(
@@ -35,24 +36,16 @@ export const deleteCategorisationKey: DCK.DeleteDatasetCategorisationKey = (
         () => new SystemError());
 };
 export const readCategorisationKey: DCK.RetreiveDatasetCategorisationKey = (
-    id,
+    ids,
     knex: Knex = knexInstance
 ) => {
     return ResultAsync.fromPromise(
-        knex.select<DCK.DatasetCategorisationKey>()
+        knex.select<DCK.DatasetCategorisationKey[]>()
             .from("dataset_categorisation_key")
-            .where("id", id)
-            .first()
+            .whereIn("id", ids)
             .then(res => {
-                if (!res) {
-                    throw new NotFoundError();
-                }
                 return res;
             }), 
-        (err) => {
-            if (isNotFoundError(err)) {
-                return err;
-            }
-            return new SystemError();
-        });
+        () => new SystemError()
+    );
 };

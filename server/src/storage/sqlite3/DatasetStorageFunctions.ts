@@ -66,25 +66,19 @@ export const deleteDataset: D.DeleteDataset = (
     }), () => new SystemError());
 };
 export const readDataset: D.RetreiveDataset = (
-    id,
+    ids,
     knex: Knex = knexInstance
 ) => {
-    return ResultAsync.fromPromise(knex.select<SQLiteDataset>().from("dataset").where("id", id).first()
-        .then(res => {
-            if (!res) {
-                throw new NotFoundError();
-            }
-
-            const { item_labels, item_type_keys, ...rest} = res;
-            return {
-                item_labels: JSON.parse(item_labels),
-                item_type_keys: JSON.parse(item_type_keys),
-                ...rest
-            };
-        }), (err) => {
-        if (isNotFoundError(err)) {
-            return err;
-        }
-        return new SystemError();
-    });
+    return ResultAsync.fromPromise(knex.select<SQLiteDataset[]>().from("dataset").whereIn("id", ids)
+        .then(allres => {
+            return allres.map(res => {
+                const { item_labels, item_type_keys, ...rest} = res;
+                return {
+                    item_labels: JSON.parse(item_labels),
+                    item_type_keys: JSON.parse(item_type_keys),
+                    ...rest
+                };
+            });
+        }), () => new SystemError()
+    );
 };

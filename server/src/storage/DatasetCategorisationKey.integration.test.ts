@@ -16,8 +16,8 @@ describe.each(configs)(
         });
         test("Happy Path :: Creates, Reads, Deletes", async () => {
             const startRes = await config.storage.datasetCategorisationKey
-                .readCategorisationKey(randomUUID(), testClient);
-            expect(isNotFoundError(startRes._unsafeUnwrapErr())).toBeTruthy();
+                .readCategorisationKey([randomUUID()], testClient);
+            expect(startRes._unsafeUnwrap()).toEqual([]);
             const fakeKey: Parameters<StoreDatasetCategorisationKey>[0] = {
                 label: randomUUID(),
                 dataset_id: randomUUID()
@@ -28,19 +28,20 @@ describe.each(configs)(
             expect(storedIdRes.isOk()).toBeTruthy();
             const storedId = storedIdRes._unsafeUnwrap();
             const storedRes = await config.storage.datasetCategorisationKey
-                .readCategorisationKey(storedId, testClient);
+                .readCategorisationKey([storedId], testClient);
             expect(storedRes.isOk()).toBeTruthy();
             const stored = storedRes._unsafeUnwrap();
-            expect(stored).toEqual({ id: storedId, ...fakeKey});
+            expect(stored).toEqual([{ id: storedId, ...fakeKey}]);
 
             expect((
                 await config.storage.datasetCategorisationKey
-                    .deleteCategorisationKey(stored.dataset_id, testClient)
+                    // eslint-disable-next-line max-len
+                    .deleteCategorisationKey(stored[0].dataset_id, stored[0].id ,testClient)
             ).isOk()).toBeTruthy();
 
             const endRes = await config.storage.datasetCategorisationKey
-                .readCategorisationKey(storedId, testClient);
-            expect(isNotFoundError(endRes._unsafeUnwrapErr())).toBeTruthy();
+                .readCategorisationKey([storedId], testClient);
+            expect(endRes._unsafeUnwrap()).toEqual([]);
         });
     }
 );

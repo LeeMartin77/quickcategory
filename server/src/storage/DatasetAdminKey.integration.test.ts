@@ -16,8 +16,8 @@ describe.each(configs)(
         });
         test("Happy Path :: Creates, Reads, Deletes", async () => {
             const startRes = await config.storage.datasetAdminKey
-                .readAdminKey(randomUUID(), testClient);
-            expect(isNotFoundError(startRes._unsafeUnwrapErr())).toBeTruthy();
+                .readAdminKey([randomUUID()], testClient);
+            expect(startRes._unsafeUnwrap()).toEqual([]);
             const fakeKey: Parameters<StoreDatasetAdminKey>[0] = {
                 dataset_id: randomUUID(),
                 hashed_admin_secret: randomUUID(),
@@ -29,19 +29,19 @@ describe.each(configs)(
             expect(storedIdRes.isOk()).toBeTruthy();
             const storedId = storedIdRes._unsafeUnwrap();
             const storedRes = await config.storage.datasetAdminKey
-                .readAdminKey(storedId, testClient);
+                .readAdminKey([storedId], testClient);
             expect(storedRes.isOk()).toBeTruthy();
             const stored = storedRes._unsafeUnwrap();
-            expect(stored).toEqual({ id: storedId, ...fakeKey});
+            expect(stored).toEqual([{ id: storedId, ...fakeKey}]);
 
             expect((
                 await config.storage.datasetAdminKey
-                    .deleteAdminKey(stored.dataset_id, testClient)
+                    .deleteAdminKey(stored[0].dataset_id, testClient)
             ).isOk()).toBeTruthy();
 
             const endRes = await config.storage.datasetAdminKey
-                .readAdminKey(storedId, testClient);
-            expect(isNotFoundError(endRes._unsafeUnwrapErr())).toBeTruthy();
+                .readAdminKey([storedId], testClient);
+            expect(endRes._unsafeUnwrap()).toEqual([]);
         });
     }
 );

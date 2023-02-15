@@ -15,13 +15,14 @@ export type StoreDatasetCategorisationKey = (
 
 export type DeleteDatasetCategorisationKey = (
   datasetId: DatasetCategorisationKey["dataset_id"],
+  id: DatasetCategorisationKey["id"],
   client?: any
 ) => ResultAsync<boolean, StorageError>;
 
 export type RetreiveDatasetCategorisationKey = (
-  id: DatasetCategorisationKey["id"],
+  ids: [DatasetCategorisationKey["id"]],
   client?: any
-) => ResultAsync<DatasetCategorisationKey, StorageError>;
+) => ResultAsync<DatasetCategorisationKey[], StorageError>;
 
 export interface DatasetCategorisationKeyStorage {
   storeCategorisationKey: StoreDatasetCategorisationKey;
