@@ -16,7 +16,7 @@ describe.each(configs)(
         test("Happy Path :: Creates, Reads, Deletes", async () => {
             const datasetId = randomUUID();
             const startRes = await config.storage.datasetCategory
-                .readCategories(datasetId, testClient);
+                .readCategories([datasetId], testClient);
             expect(startRes.isOk()).toBeTruthy();
             expect(startRes._unsafeUnwrap()).toEqual([]);
             const categories: Parameters<StoreDatasetCategory>[0][] = [
@@ -43,7 +43,7 @@ describe.each(configs)(
             
             
             const retRes = await config.storage.datasetCategory
-                .readCategories(datasetId, testClient);
+                .readCategories([datasetId], testClient);
             expect(retRes.isOk()).toBeTruthy();
             expect(retRes._unsafeUnwrap()).toEqual(categories);
 
@@ -57,7 +57,7 @@ describe.each(configs)(
             expect(delRes.every(x => x.isOk())).toBeTruthy();
             
             const endRes = await config.storage.datasetCategory
-                .readCategories(datasetId, testClient);
+                .readCategories([datasetId], testClient);
             expect(endRes.isOk()).toBeTruthy();
             expect(endRes._unsafeUnwrap()).toEqual([]);
         });

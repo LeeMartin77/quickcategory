@@ -20,7 +20,7 @@ export type DeleteDatasetCategory = (
 ) => ResultAsync<boolean, StorageError>;
 
 export type RetreiveDatasetCategories = (
-  dataset_id: DatasetCategory["dataset_id"],
+  dataset_ids: [DatasetCategory["dataset_id"]],
   client?: any
 ) => ResultAsync<DatasetCategory[], StorageError>;
 

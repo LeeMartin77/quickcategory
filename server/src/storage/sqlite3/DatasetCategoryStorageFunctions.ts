@@ -34,17 +34,14 @@ export const deleteCategory: DC.DeleteDatasetCategory = (
         () => new SystemError());
 };
 export const readCategories: DC.RetreiveDatasetCategories = (
-    datasetId,
+    datasetIds,
     knex: Knex = knexInstance
 ) => {
     return ResultAsync.fromPromise(
         knex.select<DC.DatasetCategory[]>()
             .from("dataset_category")
-            .where("dataset_id", datasetId)
+            .whereIn("dataset_id", datasetIds)
             .then(res => {
-                if (!res) {
-                    throw new NotFoundError();
-                }
                 return res;
             }), 
         () => new SystemError());
