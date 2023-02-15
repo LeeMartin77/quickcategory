@@ -51,7 +51,7 @@ type Query {
 }
 
 type Mutation {
-  createAnonymousDataset(name: String!, itemWidth: Int!, itemTypeKeys: [String!], itemLabels: [String!]): CreateDatasetResponse!
+  createAnonymousDataset(name: String!, itemWidth: Int!, itemTypeKeys: [String!]!, itemLabels: [String!]!): CreateDatasetResponse!
     
   addDatasetCategory(access: DatasetAdminKeyInput!, datasetId: String!, categoryName: String!): DatasetCategory!
   updateDatasetCategory(access: DatasetAdminKeyInput!, datasetId: String!, id: String!, categoryName: String!): DatasetCategory!

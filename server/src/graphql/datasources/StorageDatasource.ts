@@ -46,7 +46,7 @@ const generateBasicMultiDataLoader = (
 };
 
 export class StorageDatasource {
-    private _storage: StorageType;
+    public storage: StorageType;
 
     private _batchDataset;
     private _batchDatasetAdminKey;
@@ -55,14 +55,14 @@ export class StorageDatasource {
     private _batchDatasetItem;
 
     constructor(storage: StorageType) {
-        this._storage = storage;
-        this._batchDataset = generateBasicDataLoader(this._storage, "dataset", "readDataset", "id");
-        this._batchDatasetAdminKey = generateBasicDataLoader(this._storage, "datasetAdminKey", "readAdminKey", "id");
-        this._batchDatasetCategorisationKey = generateBasicDataLoader(this._storage, "datasetCategorisationKey", "readCategorisationKey", "id");
+        this.storage = storage;
+        this._batchDataset = generateBasicDataLoader(this.storage, "dataset", "readDataset", "id");
+        this._batchDatasetAdminKey = generateBasicDataLoader(this.storage, "datasetAdminKey", "readAdminKey", "id");
+        this._batchDatasetCategorisationKey = generateBasicDataLoader(this.storage, "datasetCategorisationKey", "readCategorisationKey", "id");
 
         //multi       
-        this._batchDatasetCategory = generateBasicMultiDataLoader(this._storage, "datasetCategory", "readCategories", "dataset_id");
-        this._batchDatasetItem = generateBasicMultiDataLoader(this._storage, "datasetItem", "readItems", "dataset_id");
+        this._batchDatasetCategory = generateBasicMultiDataLoader(this.storage, "datasetCategory", "readCategories", "dataset_id");
+        this._batchDatasetItem = generateBasicMultiDataLoader(this.storage, "datasetItem", "readItems", "dataset_id");
     }
 
     public async getDatasetForId(id: string): Promise<Dataset> {

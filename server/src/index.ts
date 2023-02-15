@@ -7,19 +7,21 @@ import http from "http";
 import qs from "qs";
 import typeDefs from "./graphql/schema";
 import resolvers from "./graphql/resolvers";
+import { StorageDatasource } from "./graphql/datasources/StorageDatasource";
+import { STORAGE } from "./storage";
+import { GQLContext } from "./graphql/types";
 
 const port = process.env.QUICKCATEGORY_PORT || 3012;
 
 const app = express();
 const httpServer = http.createServer(app);
 
-type GQLContext = object;
-
 const apollo = new ApolloServer<GQLContext>({
     typeDefs,
-    resolvers,  
+    resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
+
 
 app.settings["query parser"] = qs.parse;
 
@@ -27,7 +29,19 @@ app.use(express.json());
 app.use(express.static("./public"));
 
 apollo.start().then(() => {
-    app.use("/api/graphql", json(), expressMiddleware(apollo));
+    app.use("/api/graphql", json(), expressMiddleware<GQLContext>(apollo, 
+        {
+            context: async ({req}) => {
+                //const { cache } = apollo;
+                const token = req.headers.token as string;
+                return {
+                    dataSources: {
+                        storage: new StorageDatasource(STORAGE)
+                    },
+                    token
+                };}
+        }
+    ));
 
     app.get("/api/health", (req, res) => {
         res.send();

@@ -1,4 +1,5 @@
 import { Resolvers } from "../types";
+import { createAnonymousDataset } from "./mutations/createAnonymousDataset";
 
 const unimplemented_resolvers: Resolvers = {
     DatasetAdminKey: {
@@ -52,9 +53,6 @@ const unimplemented_resolvers: Resolvers = {
         categoriseItem: () => {
             throw new Error("Not Implemented");
         },
-        createAnonymousDataset: () => {
-            throw new Error("Not Implemented");
-        },
         deleteCategorisationKey: () => {
             throw new Error("Not Implemented");
         },
@@ -73,6 +71,7 @@ const unimplemented_resolvers: Resolvers = {
         updateDatasetCategory: () => {
             throw new Error("Not Implemented");
         },
+        createAnonymousDataset
     },
 };
 
