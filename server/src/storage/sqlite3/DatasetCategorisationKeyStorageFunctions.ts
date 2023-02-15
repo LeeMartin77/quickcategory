@@ -1,7 +1,7 @@
 import { Knex } from "knex";
 import { knexInstance } from ".";
 import * as DCK from "../types/DatasetCategorisationKey";
-import { NotFoundError, SystemError, ValidationError, isNotFoundError } from "../types/StorageErrors";
+import { SystemError, ValidationError } from "../types/StorageErrors";
 import { randomUUID } from "crypto";
 import { ResultAsync, errAsync } from "neverthrow";
 import { isValidCategorisationKey } from "../validation/DatasetCategorisationKeyValidation";

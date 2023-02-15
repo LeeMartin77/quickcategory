@@ -1,7 +1,7 @@
 import { Knex } from "knex";
 import { knexInstance } from ".";
 import * as D from "../types/Dataset";
-import { NotFoundError, SystemError, isNotFoundError, ValidationError } from "../types/StorageErrors";
+import { SystemError, ValidationError } from "../types/StorageErrors";
 import { randomUUID } from "crypto";
 import { errAsync, ResultAsync } from "neverthrow";
 import { isValidDataset, isValidDatasetUpdate } from "../validation/DatasetValidation";

@@ -1,7 +1,7 @@
 import { Knex } from "knex";
 import { knexInstance } from ".";
 import * as DAK from "../types/DatasetAdminKey";
-import { NotFoundError, SystemError, ValidationError, isNotFoundError } from "../types/StorageErrors";
+import { SystemError, ValidationError } from "../types/StorageErrors";
 import { randomUUID } from "crypto";
 import { ResultAsync, errAsync } from "neverthrow";
 import { isValidAdminKey as isValidStoreAdminKey } from "../validation/DatasetAdminKeyValidation";

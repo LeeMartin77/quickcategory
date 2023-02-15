@@ -1,6 +1,5 @@
 import { configs } from "./_testConfigs";
 import { randomUUID } from "crypto";
-import { isNotFoundError } from "./types/StorageErrors";
 import { StoreDataset } from "./types/Dataset";
 
 describe.each(configs)(
