@@ -50,4 +50,46 @@ describe("StorageDatasource :: Integration using SQLite3", () => {
         const loaded1 = await datasource.getDatasetForId(datasetId1);
         expect(loaded1.name).toBe(datasetInserts[1].name);
     });
+    test("DatasetAdminKeys Batch Loaded", async () => {
+        // Create a pair of datasets:
+        const inserts = [randomUUID(), randomUUID()].map((dataset_id) => ({
+            dataset_id,
+            hashed_admin_secret: randomUUID(),
+            admin_secret_salt: randomUUID()
+        }));
+        
+        const insertedId0 = (await STORAGE.datasetAdminKey
+            .storeAdminKey(inserts[0])
+        )._unsafeUnwrap();
+        const insertedId1 = (await STORAGE.datasetAdminKey
+            .storeAdminKey(inserts[1])
+        )._unsafeUnwrap();
+
+        const datasource = new StorageDatasource(STORAGE);
+
+        const loaded0 = await datasource.getDatasetAdminKeyForId(insertedId0);
+        expect(loaded0.dataset_id).toBe(inserts[0].dataset_id);
+        const loaded1 = await datasource.getDatasetAdminKeyForId(insertedId1);
+        expect(loaded1.dataset_id).toBe(inserts[1].dataset_id);
+    });
+    test("DatasetCategory Batch Loaded", async () => {
+        // Create a pair of datasets:
+        const inserts = [randomUUID(), randomUUID()].map((dataset_id) => ({
+            dataset_id,
+            key: randomUUID(),
+            name: randomUUID()
+        }));
+        
+        await STORAGE.datasetCategory.storeCategory(inserts[0]);
+        await STORAGE.datasetCategory.storeCategory(inserts[1]);
+
+        const datasource = new StorageDatasource(STORAGE);
+
+        const loaded0 = await datasource
+            .getDatasetCategoriesForId(inserts[0].dataset_id);
+        expect(loaded0.map(x => x.key)).toEqual([inserts[0].key]);
+        const loaded1 = await datasource
+            .getDatasetCategoriesForId(inserts[1].dataset_id);
+        expect(loaded1.map(x => x.key)).toEqual([inserts[1].key]);
+    });
 });
