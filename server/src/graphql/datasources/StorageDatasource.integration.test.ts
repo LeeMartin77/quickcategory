@@ -86,10 +86,30 @@ describe("StorageDatasource :: Integration using SQLite3", () => {
         const datasource = new StorageDatasource(STORAGE);
 
         const loaded0 = await datasource
-            .getDatasetCategoriesForId(inserts[0].dataset_id);
+            .getDatasetCategoriesForDatasetId(inserts[0].dataset_id);
         expect(loaded0.map(x => x.key)).toEqual([inserts[0].key]);
         const loaded1 = await datasource
-            .getDatasetCategoriesForId(inserts[1].dataset_id);
+            .getDatasetCategoriesForDatasetId(inserts[1].dataset_id);
         expect(loaded1.map(x => x.key)).toEqual([inserts[1].key]);
+    });
+    test("DatasetItem Batch Loaded", async () => {
+        // Create a pair of datasets:
+        const inserts = [randomUUID(), randomUUID()].map((dataset_id) => ({
+            dataset_id,
+            values: [
+                { index: 0, value: "something" }
+            ]
+        }));
+        
+        await STORAGE.datasetItem.storeItems(inserts);
+
+        const datasource = new StorageDatasource(STORAGE);
+
+        const loaded0 = await datasource
+            .getDatasetItemsForDatasetId(inserts[0].dataset_id);
+        expect(loaded0.map(x => x.dataset_id)).toEqual([inserts[0].dataset_id]);
+        const loaded1 = await datasource
+            .getDatasetItemsForDatasetId(inserts[1].dataset_id);
+        expect(loaded1.map(x => x.dataset_id)).toEqual([inserts[1].dataset_id]);
     });
 });

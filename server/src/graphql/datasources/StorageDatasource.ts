@@ -71,8 +71,13 @@ export class StorageDatasource {
         return this._batchDatasetAdminKey.load(id);
     }
 
-    public async getDatasetCategoriesForId(dataset_id: string): 
+    public async getDatasetCategoriesForDatasetId(dataset_id: string): 
         Promise<DatasetCategory[]> {
         return this._batchDatasetCategory.load(dataset_id);
+    }
+
+    public async getDatasetItemsForDatasetId(dataset_id: string): 
+        Promise<DatasetCategory[]> {
+        return this._batchDatasetItem.load(dataset_id);
     }
 }
