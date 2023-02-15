@@ -33,13 +33,13 @@ export const deleteCategorisation: DIC.DeleteDatasetItemCategorisation = (
         () => new SystemError());
 };
 export const readCategorisations: DIC.RetreiveDatasetCategorisations = (
-    datasetId,
+    datasetIds,
     filters,
     knex: Knex = knexInstance
 ) => {
     const query = knex.select<DIC.DatasetItemCategorisation[]>()
         .from("dataset_item_categorisation")
-        .where("dataset_id", datasetId);
+        .whereIn("dataset_id", datasetIds);
     if (filters) {
         Object.entries(filters).forEach(([key, val])=> {
             query.andWhere(key, val);

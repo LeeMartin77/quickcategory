@@ -16,7 +16,7 @@ describe.each(configs)(
         test("Happy Path :: Creates, Reads, Deletes", async () => {
             const datasetId = randomUUID();
             const startRes = await config.storage.datasetItemCategorisation
-                .readCategorisations(datasetId, undefined, testClient);
+                .readCategorisations([datasetId], undefined, testClient);
             expect(startRes.isOk()).toBeTruthy();
             expect(startRes._unsafeUnwrap()).toEqual([]);
             // eslint-disable-next-line max-len
@@ -40,7 +40,7 @@ describe.each(configs)(
             
             
             const retRes = await config.storage.datasetItemCategorisation
-                .readCategorisations(datasetId, undefined, testClient);
+                .readCategorisations([datasetId], undefined, testClient);
             expect(retRes.isOk()).toBeTruthy();
             expect(retRes._unsafeUnwrap())
                 .toEqual([{ id: storedId, ...itemCategorisation}]);
@@ -52,14 +52,14 @@ describe.each(configs)(
             expect(delRes.isOk()).toBeTruthy();
             
             const endRes = await config.storage.datasetItemCategorisation
-                .readCategorisations(datasetId, undefined, testClient);
+                .readCategorisations([datasetId], undefined, testClient);
             expect(endRes.isOk()).toBeTruthy();
             expect(endRes._unsafeUnwrap()).toEqual([]);
         });
         test("Filtering :: Filters Queries Correctly", async () => {
             const datasetId = randomUUID();
             const startRes = await config.storage.datasetItemCategorisation
-                .readCategorisations(datasetId, undefined, testClient);
+                .readCategorisations([datasetId], undefined, testClient);
             expect(startRes.isOk()).toBeTruthy();
             expect(startRes._unsafeUnwrap()).toEqual([]);
             // eslint-disable-next-line max-len
@@ -98,7 +98,7 @@ describe.each(configs)(
                 .storeCategorisation(specificCat, testClient).unwrapOr("");
                 
             const allRes = await config.storage.datasetItemCategorisation
-                .readCategorisations(datasetId, undefined, testClient);
+                .readCategorisations([datasetId], undefined, testClient);
             expect(allRes.isOk()).toBeTruthy();
             expect(allRes._unsafeUnwrap())
                 .toEqual([
@@ -108,7 +108,7 @@ describe.each(configs)(
                 ]);
 
             const catRes = await config.storage.datasetItemCategorisation
-                .readCategorisations(datasetId, { 
+                .readCategorisations([datasetId], { 
                     category_key: specificCat.category_key
                 }, testClient);
             expect(catRes.isOk()).toBeTruthy();
@@ -117,7 +117,7 @@ describe.each(configs)(
                     { id: storedCat, ...specificCat}
                 ]);
             const keyRes = await config.storage.datasetItemCategorisation
-                .readCategorisations(datasetId, { 
+                .readCategorisations([datasetId], { 
                     key_id: specificKey.key_id
                 }, testClient);
             expect(keyRes.isOk()).toBeTruthy();
@@ -126,7 +126,7 @@ describe.each(configs)(
                     { id: storedKey, ...specificKey}
                 ]);
             const itemRes = await config.storage.datasetItemCategorisation
-                .readCategorisations(datasetId, { 
+                .readCategorisations([datasetId], { 
                     item_id: specificItem.item_id
                 }, testClient);
             expect(itemRes.isOk()).toBeTruthy();
