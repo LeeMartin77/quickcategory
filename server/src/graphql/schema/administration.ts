@@ -53,9 +53,9 @@ type Query {
 type Mutation {
   createAnonymousDataset(name: String!, itemTypeKeys: [String!]!, itemLabels: [String!]!): CreateDatasetResponse!
     
-  addDatasetCategory(access: DatasetAdminKeyInput!, datasetId: String!, categoryName: String!): DatasetCategory!
-  updateDatasetCategory(access: DatasetAdminKeyInput!, datasetId: String!, id: String!, categoryName: String!): DatasetCategory!
-  deleteDatasetCategory(access: DatasetAdminKeyInput!, datasetId: String!, categoryName: String!): Boolean!
+  addDatasetCategory(access: DatasetAdminKeyInput!, datasetId: String!, categoryKey: String!, categoryName: String!): DatasetCategory!
+  updateDatasetCategory(access: DatasetAdminKeyInput!, datasetId: String!, categoryKey: String!, categoryName: String!): DatasetCategory!
+  deleteDatasetCategory(access: DatasetAdminKeyInput!, datasetId: String!, categoryKey: String!): Boolean!
 
   addCategorisationKey(access: DatasetAdminKeyInput!, datasetId: String!, label: String!): DatasetCategorisationKey!
   updateCategorisationKey(access: DatasetAdminKeyInput!, datasetId: String!, id: String!, label: String!): DatasetCategorisationKey!

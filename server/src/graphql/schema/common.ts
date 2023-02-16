@@ -18,7 +18,7 @@ type DatasetItemValueInfo {
 
 type DatasetCategory {
     dataset_id: String!
-    id: String!
+    key: String!
     name: String!
 }
 
