@@ -49,3 +49,19 @@ export const readCategorisationKey: DCK.RetreiveDatasetCategorisationKey = (
         () => new SystemError()
     );
 };
+
+// eslint-disable-next-line max-len
+export const readCategorisationKeysForDataset: DCK.RetreiveDatasetCategorisationKeysForDataset = (
+    dataset_ids,
+    knex: Knex = knexInstance
+) => {
+    return ResultAsync.fromPromise(
+        knex.select<DCK.DatasetCategorisationKey[]>()
+            .from("dataset_categorisation_key")
+            .whereIn("dataset_id", dataset_ids)
+            .then(res => {
+                return res;
+            }), 
+        () => new SystemError()
+    );
+};

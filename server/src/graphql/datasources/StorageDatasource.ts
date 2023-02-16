@@ -54,6 +54,7 @@ export class StorageDatasource {
     private _batchDatasetAdminKey;
     private _batchDatasetCategory;
     private _batchDatasetCategorisationKey;
+    private _batchDatasetCategorisationKeys;
     private _batchDatasetItemCategorisations;
     private _batchDatasetItem;
 
@@ -67,6 +68,7 @@ export class StorageDatasource {
         //multi       
         this._batchDatasetItemCategorisations = generateBasicMultiDataLoader(this.storage, "datasetItemCategorisation", "readCategorisations", "dataset_id");
         this._batchDatasetCategory = generateBasicMultiDataLoader(this.storage, "datasetCategory", "readCategories", "dataset_id");
+        this._batchDatasetCategorisationKeys = generateBasicMultiDataLoader(this.storage, "datasetCategorisationKey", "readCategorisationKeysForDataset", "dataset_id");
         this._batchDatasetItem = generateBasicMultiDataLoader(this.storage, "datasetItem", "readItems", "dataset_id");
     }
 
@@ -81,6 +83,11 @@ export class StorageDatasource {
     public async getDatasetCategorisationKeyForId(id: string): 
         Promise<DatasetCategorisationKey> {
         return this._batchDatasetCategorisationKey.load(id);
+    }
+
+    public async getDatasetCategorisationKeysForDatasetId(dataset_id: string): 
+        Promise<DatasetCategorisationKey[]> {
+        return this._batchDatasetCategorisationKeys.load(dataset_id);
     }
 
     public async getDatasetCategoriesForDatasetId(dataset_id: string): 
@@ -99,6 +106,4 @@ export class StorageDatasource {
     Promise<DatasetItemCategorisation[]> {
         return this._batchDatasetItemCategorisations.load(dataset_id);
     }
-    
-
 }

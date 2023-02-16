@@ -24,8 +24,14 @@ export type RetreiveDatasetCategorisationKey = (
   client?: any
 ) => ResultAsync<DatasetCategorisationKey[], StorageError>;
 
+export type RetreiveDatasetCategorisationKeysForDataset = (
+  dataset_ids: DatasetCategorisationKey["dataset_id"][],
+  client?: any
+) => ResultAsync<DatasetCategorisationKey[], StorageError>;
+
 export interface DatasetCategorisationKeyStorage {
   storeCategorisationKey: StoreDatasetCategorisationKey;
   deleteCategorisationKey: DeleteDatasetCategorisationKey;
   readCategorisationKey: RetreiveDatasetCategorisationKey;
+  readCategorisationKeysForDataset: RetreiveDatasetCategorisationKeysForDataset;
 }

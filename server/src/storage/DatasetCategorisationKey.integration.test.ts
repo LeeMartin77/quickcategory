@@ -26,11 +26,33 @@ describe.each(configs)(
                 .storeCategorisationKey(fakeKey, testClient);
             expect(storedIdRes.isOk()).toBeTruthy();
             const storedId = storedIdRes._unsafeUnwrap();
+
             const storedRes = await config.storage.datasetCategorisationKey
                 .readCategorisationKey([storedId], testClient);
             expect(storedRes.isOk()).toBeTruthy();
             const stored = storedRes._unsafeUnwrap();
             expect(stored).toEqual([{ id: storedId, ...fakeKey}]);
+
+
+            const fakeKeyTwo: Parameters<StoreDatasetCategorisationKey>[0] = {
+                label: randomUUID(),
+                dataset_id: fakeKey.dataset_id
+            };
+
+            const storedIdResTwo = await config.storage.datasetCategorisationKey
+                .storeCategorisationKey(fakeKeyTwo, testClient);
+            expect(storedIdResTwo.isOk()).toBeTruthy();
+            const storedIdTwo = storedIdResTwo._unsafeUnwrap();
+
+            const getAllRes = await config.storage.datasetCategorisationKey
+                .readCategorisationKeysForDataset(
+                    [fakeKey.dataset_id], testClient
+                );
+            
+            expect(getAllRes.isOk()).toBeTruthy();
+            const getAll = getAllRes._unsafeUnwrap();
+
+            expect(getAll.map(x => x.id)).toEqual([storedId, storedIdTwo]);
 
             expect((
                 await config.storage.datasetCategorisationKey
@@ -41,6 +63,21 @@ describe.each(configs)(
             const endRes = await config.storage.datasetCategorisationKey
                 .readCategorisationKey([storedId], testClient);
             expect(endRes._unsafeUnwrap()).toEqual([]);
+
+            expect((
+                await config.storage.datasetCategorisationKey
+                    // eslint-disable-next-line max-len
+                    .deleteCategorisationKey(stored[0].dataset_id, storedIdTwo ,testClient)
+            ).isOk()).toBeTruthy();
+
+
+            const getAllEmptyRes = await config.storage.datasetCategorisationKey
+                .readCategorisationKeysForDataset(
+                    [fakeKey.dataset_id], testClient
+                );
+            
+            expect(getAllEmptyRes.isOk()).toBeTruthy();
+            expect(getAllEmptyRes._unsafeUnwrap()).toEqual([]);
         });
     }
 );
