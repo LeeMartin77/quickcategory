@@ -1,7 +1,14 @@
 import { GraphQLError } from "graphql";
 import { hashWithSalt } from "../../../utilities";
-import { GQLContext, QueryDatasetAdminKeyArgs } from "../../types";
+import { GQLContext } from "../../types";
 import { ApolloServerErrorCode } from "@apollo/server/errors";
+
+type QueryDatasetAdminKeyArgs = {
+    access: {
+        accessId: string,
+        accessSecret: string
+    }
+}
 
 // eslint-disable-next-line max-len
 export const datasetAdminKey = async (_: object, 

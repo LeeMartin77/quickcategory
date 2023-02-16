@@ -1,4 +1,4 @@
-import { GQLContext, MutationCreateAnonymousDatasetArgs } from "../../types";
+import { GQLContext } from "../../types";
 import { randomBytes } from "node:crypto";
 import { hashWithSalt } from "../../../utilities";
 
@@ -8,6 +8,12 @@ function randomStringOfLength(length: number): string {
         .slice(0, length)
         .replace(/\+/g, "0")
         .replace(/\//g, "0");
+}
+
+type MutationCreateAnonymousDatasetArgs = {
+    name: string,
+    itemLabels: string[],
+    itemTypeKeys: string[]
 }
 
 export const createAnonymousDataset = 

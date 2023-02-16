@@ -1,11 +1,15 @@
-import { Resolvers } from "../types";
+import { GQLContext } from "../types";
 import { createAnonymousDataset } from "./mutations/createAnonymousDataset";
 import { datasetAdminKey } from "./queries/datasetAdminKey";
 
-const unimplemented_resolvers: Resolvers = {
+export default [{
     DatasetAdminKey: {
-        data_set: () => {
-            throw new Error("Not Implemented");
+        data_set: (
+            {dataset_id}: {dataset_id: string},
+            __: never,
+            { dataSources: { storage }}: GQLContext
+        ) => {
+            return storage.getDatasetForId(dataset_id) as any;
         },
     },
     Dataset: {
@@ -37,9 +41,7 @@ const unimplemented_resolvers: Resolvers = {
         },
     },
     Query: {
-        // This is an annoyance to do with the field being subresolved - see how it plays in the real
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        datasetAdminKey: datasetAdminKey as any
+        datasetAdminKey
     },
     Mutation: {
         addCategorisationKey: () => {
@@ -74,6 +76,4 @@ const unimplemented_resolvers: Resolvers = {
         },
         createAnonymousDataset
     },
-};
-
-export default [unimplemented_resolvers];
+}];
