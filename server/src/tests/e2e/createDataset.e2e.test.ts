@@ -42,6 +42,7 @@ describe("Create Dataset e2e", () => {
             accessId: string, 
             accessSecret: string 
         };
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {__typename, id: dataset_id, ...access}: CreationResponse =
             data.createAnonymousDataset;
 
