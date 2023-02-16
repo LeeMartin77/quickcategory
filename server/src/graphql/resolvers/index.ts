@@ -1,6 +1,8 @@
 import { createAnonymousDataset } from "./mutations/createAnonymousDataset";
+import { addDatasetCategory } from "./mutations/addDatasetCategory";
 import { datasetAdminKey } from "./queries/datasetAdminKey";
 import { DatasetAdminKey } from "./subresolvers/DatasetAdminKey";
+import { addDatasetItems } from "./mutations/addDatasetItems";
 
 export default [
     {
@@ -40,12 +42,6 @@ export default [
             addCategorisationKey: () => {
                 throw new Error("Not Implemented");
             },
-            addDatasetItems: () => {
-                throw new Error("Not Implemented");
-            },
-            addDatasetCategory: () => {
-                throw new Error("Not Implemented");
-            },
             categoriseItem: () => {
                 throw new Error("Not Implemented");
             },
@@ -67,6 +63,8 @@ export default [
             updateDatasetCategory: () => {
                 throw new Error("Not Implemented");
             },
-            createAnonymousDataset
+            createAnonymousDataset,
+            addDatasetItems,
+            addDatasetCategory
         },
     }];
