@@ -1,5 +1,6 @@
 import { Resolvers } from "../types";
 import { createAnonymousDataset } from "./mutations/createAnonymousDataset";
+import { datasetAdminKey } from "./queries/datasetAdminKey";
 
 const unimplemented_resolvers: Resolvers = {
     DatasetAdminKey: {
@@ -36,9 +37,9 @@ const unimplemented_resolvers: Resolvers = {
         },
     },
     Query: {
-        datasetAdminKey: () => {
-            throw new Error("Not Implemented");
-        },
+        // This is an annoyance to do with the field being subresolved - see how it plays in the real
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        datasetAdminKey: datasetAdminKey as any
     },
     Mutation: {
         addCategorisationKey: () => {
