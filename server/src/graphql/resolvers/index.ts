@@ -3,6 +3,7 @@ import { addDatasetCategory } from "./mutations/addDatasetCategory";
 import { datasetAdminKey } from "./queries/datasetAdminKey";
 import { DatasetAdminKey } from "./subresolvers/DatasetAdminKey";
 import { addDatasetItems } from "./mutations/addDatasetItems";
+import { addCategorisationKey } from "./mutations/addCategorisationKey";
 
 export default [
     {
@@ -39,9 +40,6 @@ export default [
             datasetAdminKey
         },
         Mutation: {
-            addCategorisationKey: () => {
-                throw new Error("Not Implemented");
-            },
             categoriseItem: () => {
                 throw new Error("Not Implemented");
             },
@@ -65,6 +63,7 @@ export default [
             },
             createAnonymousDataset,
             addDatasetItems,
-            addDatasetCategory
+            addDatasetCategory,
+            addCategorisationKey
         },
     }];
