@@ -1,20 +1,66 @@
+import { GQLContext } from "../../types";
+import { DatasetCategory } from "../../../storage/types/DatasetCategory";
+import { DatasetItem } from "../../../storage/types/DatasetItem";
+
+const value_info = async (
+    {id}: {id: string},
+    __: never,
+    { dataSources: { storage }}: GQLContext
+): Promise<{
+    index: number,
+    type: string,
+    label: string
+}[]> => {
+    const { item_labels, item_type_keys } = 
+        await storage.getDatasetForId(id);
+    return item_labels.map((label) => {
+        return {
+            index: label.index,
+            label: label.value,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            type: item_type_keys.find(x => x.index === label.index)!.value
+        };
+    });
+};
+
+const categories = (
+    {id}: {id: string},
+    __: never,
+    { dataSources: { storage }}: GQLContext
+): Promise<DatasetCategory[]> => {
+    return storage.getDatasetCategoriesForDatasetId(id);
+};
+
 export const Dataset = {
-    value_info: () => {
+    value_info,
+    categories,
+    categorisations: (
+        {id}: {id: string},
+        __: never,
+        { dataSources: { storage }}: GQLContext
+    ) => {
         throw new Error("Not Implemented");
     },
-    categories: () => {
+    categorisation_keys: (
+        {id}: {id: string},
+        __: never,
+        { dataSources: { storage }}: GQLContext
+    ) => {
         throw new Error("Not Implemented");
     },
-    categorisations: () => {
-        throw new Error("Not Implemented");
+    items: (
+        {id}: {id: string},
+        __: never,
+        { dataSources: { storage }}: GQLContext
+    ): Promise<DatasetItem[]> => {
+        return storage.getDatasetItemsForDatasetId(id);
     },
-    categorisation_keys: () => {
-        throw new Error("Not Implemented");
-    },
-    items: () => {
-        throw new Error("Not Implemented");
-    },
-    item_count: () => {
-        throw new Error("Not Implemented");
+    item_count: async (
+        {id}: {id: string},
+        __: never,
+        { dataSources: { storage }}: GQLContext
+    ): Promise<number> => {
+        // TODO: Discrete storage method
+        return (await storage.getDatasetItemsForDatasetId(id)).length;
     },
 };

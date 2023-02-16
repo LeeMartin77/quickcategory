@@ -23,6 +23,7 @@ describe("Create Dataset e2e", () => {
                     createAnonymousDataset(name: $name, itemTypeKeys: $itemTypeKeys, itemLabels: $itemLabels) {
                         accessId
                         accessSecret
+                        id
                     }
                 }
             `,
@@ -35,9 +36,47 @@ describe("Create Dataset e2e", () => {
         expect(data.createAnonymousDataset.accessId).toBeTruthy();
         expect(data.createAnonymousDataset.accessSecret).toBeTruthy();
 
-        type CreationResponse = { accessId: string, accessSecret: string };
-        const { accessId, accessSecret }: CreationResponse =
+        type CreationResponse = { 
+            __typename: string,
+            id: string,
+            accessId: string, 
+            accessSecret: string 
+        };
+        const {__typename, id: dataset_id, ...access}: CreationResponse =
             data.createAnonymousDataset;
+
+        const extraDataVariables = {
+            access,
+            datasetId: dataset_id,
+            categoryKey: "some-cat-key",
+            categoryName: "Some Category Name"
+        };
+        
+        const { data: extraData, errors: extraErrors } = await client.mutate({
+            mutation: gql`
+                    mutation CreateDatasetData(
+                        $access: DatasetAdminKeyInput!
+                        $datasetId: String!
+                        $categoryKey: String!
+                        $categoryName: String!
+                    ) {
+                        addDatasetCategory(
+                            access: $access,
+                            datasetId: $datasetId,
+                            categoryKey: $categoryKey,
+                            categoryName: $categoryName
+                        ) {
+                            key
+                            name
+                        }
+                    }
+                `,
+            variables: extraDataVariables
+        });
+    
+        expect(extraData).not.toBeUndefined();
+        expect(extraErrors).toBeUndefined();
+
 
         const { data: readData, errors: readErrors } = await client.query({
             query: gql`
@@ -45,16 +84,17 @@ describe("Create Dataset e2e", () => {
                     datasetAdminKey(access: $access) {
                         data_set {
                             id,
-                            name
+                            name,
+                            categories {
+                                key,
+                                name
+                            }
                         }
                     }
                 }
             `,
             variables: {
-                access: {
-                    accessId,
-                    accessSecret
-                }
+                access
             }
         });
 
@@ -64,5 +104,8 @@ describe("Create Dataset e2e", () => {
         expect(readData.datasetAdminKey.data_set.id).toBeTruthy();
         expect(readData.datasetAdminKey.data_set.name)
             .toBe(creationVariables.name);
+        
+        expect(readData.datasetAdminKey.data_set.categories[0].key)
+            .toBe(extraDataVariables.categoryKey);
     });
 });
