@@ -1,41 +1,19 @@
+import { datasetAdminKey } from "./queries/datasetAdminKey";
+
 import { createAnonymousDataset } from "./mutations/createAnonymousDataset";
 import { addDatasetCategory } from "./mutations/addDatasetCategory";
-import { datasetAdminKey } from "./queries/datasetAdminKey";
-import { DatasetAdminKey } from "./subresolvers/DatasetAdminKey";
 import { addDatasetItems } from "./mutations/addDatasetItems";
 import { addCategorisationKey } from "./mutations/addCategorisationKey";
+
+import { Dataset } from "./subresolvers/Dataset";
+import { DatasetItem } from "./subresolvers/DatasetItem";
+import { DatasetAdminKey } from "./subresolvers/DatasetAdminKey";
 
 export default [
     {
         DatasetAdminKey,
-        Dataset: {
-            value_info: () => {
-                throw new Error("Not Implemented");
-            },
-            categories: () => {
-                throw new Error("Not Implemented");
-            },
-            categorisations: () => {
-                throw new Error("Not Implemented");
-            },
-            categorisation_keys: () => {
-                throw new Error("Not Implemented");
-            },
-            items: () => {
-                throw new Error("Not Implemented");
-            },
-            item_count: () => {
-                throw new Error("Not Implemented");
-            },
-        },
-        DatasetItem: {
-            value_info: () => {
-                throw new Error("Not Implemented");
-            },
-            categories: () => {
-                throw new Error("Not Implemented");
-            },
-        },
+        Dataset,
+        DatasetItem,
         Query: {
             datasetAdminKey
         },
