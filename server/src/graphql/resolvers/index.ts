@@ -9,7 +9,7 @@ export default [{
             __: never,
             { dataSources: { storage }}: GQLContext
         ) => {
-            return storage.getDatasetForId(dataset_id) as any;
+            return storage.getDatasetForId(dataset_id);
         },
     },
     Dataset: {
