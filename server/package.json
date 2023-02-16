@@ -6,9 +6,11 @@
     "dev": "nodemon src/index.ts",
     "build": "tsc",
     "test": "jest",
-    "test:integration": "jest --config jest.integration.config.js"
+    "test:integration": "jest --config jest.integration.config.js",
+    "test:e2e": "jest --config jest.e2e.config.js"
   },
   "devDependencies": {
+    "@apollo/client": "^3.7.5",
     "@types/express": "^4.17.13",
     "@types/jest": "^28.1.8",
     "@types/node": "^18.13.0",
