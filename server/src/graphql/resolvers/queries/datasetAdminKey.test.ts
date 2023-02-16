@@ -3,7 +3,6 @@ import { DatasetAdminKey } from "../../../storage/types/DatasetAdminKey";
 import { hashWithSalt } from "../../../utilities";
 import { GQLContext } from "../../types";
 import { datasetAdminKey } from "./datasetAdminKey";
-import { GraphQLError } from "graphql";
 
 describe("datasetAdminKey", () => {
     test("Happy Path", async () => {
