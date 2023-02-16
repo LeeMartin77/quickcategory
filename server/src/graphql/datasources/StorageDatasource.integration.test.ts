@@ -114,9 +114,10 @@ describe("StorageDatasource :: Integration using SQLite3", () => {
     });
     test("DatasetCategorisationKey Batch Loaded", async () => {
         // Create a pair of datasets:
-        const inserts = [randomUUID(), randomUUID()].map((dataset_id) => ({
+        const dataset_id = randomUUID();
+        const inserts = [randomUUID(), randomUUID()].map((label) => ({
             dataset_id,
-            label: randomUUID()
+            label
         }));
         
         const insertedId0 = (await STORAGE.datasetCategorisationKey
@@ -130,10 +131,33 @@ describe("StorageDatasource :: Integration using SQLite3", () => {
 
         const loaded0 = await datasource
             .getDatasetCategorisationKeyForId(insertedId0);
-        expect(loaded0.dataset_id).toEqual(inserts[0].dataset_id);
+        expect(loaded0.label).toEqual(inserts[0].label);
 
         const loaded1 = await datasource
             .getDatasetCategorisationKeyForId(insertedId1);
-        expect(loaded1.dataset_id).toEqual(inserts[1].dataset_id);
+        expect(loaded1.label).toEqual(inserts[1].label);
+    });
+    test("DatasetItemCategorisation Batch Loading", async () => {
+        // Create a pair of datasets:
+        const dataset_id = randomUUID();
+        const inserts = [randomUUID(), randomUUID()].map((label) => ({
+            dataset_id,
+            category_key: randomUUID(),
+            item_id: randomUUID(),
+            key_id: randomUUID()
+        }));
+        
+        const insertedId0 = (await STORAGE.datasetItemCategorisation
+            .storeCategorisation(inserts[0])
+        )._unsafeUnwrap();
+        const insertedId1 = (await STORAGE.datasetItemCategorisation
+            .storeCategorisation(inserts[1])
+        )._unsafeUnwrap();
+
+        const datasource = new StorageDatasource(STORAGE);
+
+        const loadedAll = await datasource
+            .getDatasetItemCategorisationsForDatasetId(dataset_id);
+        expect(loadedAll.map(x => x.id)).toEqual([insertedId0, insertedId1]);
     });
 });

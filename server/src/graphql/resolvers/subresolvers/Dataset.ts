@@ -39,7 +39,7 @@ export const Dataset = {
         __: never,
         { dataSources: { storage }}: GQLContext
     ) => {
-        throw new Error("Not Implemented");
+        return storage.getDatasetItemCategorisationsForDatasetId(id);
     },
     categorisation_keys: (
         {id}: {id: string},

@@ -10,6 +10,7 @@ type Dataset {
     name: String!
     value_info: [DatasetItemValueInfo!]!
     categories: [DatasetCategory!]!
+    """TODO: Will definitely need pagination"""
     categorisations: [DatasetItemCategorisation!]!
     categorisation_keys: [DatasetCategorisationKey!]!
     """TODO: Will definitely need pagination"""

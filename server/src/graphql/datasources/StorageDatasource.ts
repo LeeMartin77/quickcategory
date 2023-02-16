@@ -5,6 +5,7 @@ import { DatasetAdminKey } from "../../storage/types/DatasetAdminKey";
 import { DatasetCategorisationKey } from "../../storage/types/DatasetCategorisationKey";
 import { DatasetCategory } from "../../storage/types/DatasetCategory";
 import { DatasetItem } from "../../storage/types/DatasetItem";
+import { DatasetItemCategorisation } from "../../storage/types/DatasetItemCategorisation";
 
 // This is a bit any-heavy, it just saves me some annoying boilerplate
 // And I don't fancy spending my life fighting types
@@ -53,15 +54,18 @@ export class StorageDatasource {
     private _batchDatasetAdminKey;
     private _batchDatasetCategory;
     private _batchDatasetCategorisationKey;
+    private _batchDatasetItemCategorisations;
     private _batchDatasetItem;
 
     constructor(storage: StorageType) {
         this.storage = storage;
+        storage.datasetItemCategorisation.readCategorisations;
         this._batchDataset = generateBasicDataLoader(this.storage, "dataset", "readDataset", "id");
         this._batchDatasetAdminKey = generateBasicDataLoader(this.storage, "datasetAdminKey", "readAdminKey", "id");
         this._batchDatasetCategorisationKey = generateBasicDataLoader(this.storage, "datasetCategorisationKey", "readCategorisationKey", "id");
 
         //multi       
+        this._batchDatasetItemCategorisations = generateBasicMultiDataLoader(this.storage, "datasetItemCategorisation", "readCategorisations", "dataset_id");
         this._batchDatasetCategory = generateBasicMultiDataLoader(this.storage, "datasetCategory", "readCategories", "dataset_id");
         this._batchDatasetItem = generateBasicMultiDataLoader(this.storage, "datasetItem", "readItems", "dataset_id");
     }
@@ -89,5 +93,12 @@ export class StorageDatasource {
         Promise<DatasetItem[]> {
         return this._batchDatasetItem.load(dataset_id);
     }
+
+    // TODO: This needs pagination...
+    public async getDatasetItemCategorisationsForDatasetId(dataset_id: string): 
+    Promise<DatasetItemCategorisation[]> {
+        return this._batchDatasetItemCategorisations.load(dataset_id);
+    }
+    
 
 }
