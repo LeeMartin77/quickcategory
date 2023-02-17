@@ -10,8 +10,12 @@ const value_info = async (
     type: string,
     label: string
 }[]> => {
-    const { item_labels, item_type_keys } = 
+    const dataset = 
         await storage.getDatasetForId(dataset_id);
+    if (!dataset) {
+        return [];
+    }
+    const { item_labels, item_type_keys } = dataset;
     return item_labels.map((label) => {
         return {
             index: label.index,

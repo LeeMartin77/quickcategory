@@ -72,16 +72,17 @@ export class StorageDatasource {
         this._batchDatasetItem = generateBasicMultiDataLoader(this.storage, "datasetItem", "readItems", "dataset_id");
     }
 
-    public async getDatasetForId(id: string): Promise<Dataset> {
+    public async getDatasetForId(id: string): Promise<Dataset | undefined> {
         return this._batchDataset.load(id);
     }
 
+    // eslint-disable-next-line max-len
     public async getDatasetAdminKeyForId(id: string): Promise<DatasetAdminKey | undefined> {
         return this._batchDatasetAdminKey.load(id);
     }
 
     public async getDatasetCategorisationKeyForId(id: string): 
-        Promise<DatasetCategorisationKey> {
+        Promise<DatasetCategorisationKey | undefined> {
         return this._batchDatasetCategorisationKey.load(id);
     }
 
