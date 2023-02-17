@@ -5,6 +5,9 @@ import { addDatasetCategory } from "./mutations/addDatasetCategory";
 import { addDatasetItems } from "./mutations/addDatasetItems";
 import { addCategorisationKey } from "./mutations/addCategorisationKey";
 
+import { categoriseItem } from "./mutations/categoriseItem";
+import { getItemToCategorise } from "./mutations/getItemToCategorise";
+
 import { Dataset } from "./subresolvers/Dataset";
 import { DatasetItem } from "./subresolvers/DatasetItem";
 import { DatasetAdminKey } from "./subresolvers/DatasetAdminKey";
@@ -18,9 +21,6 @@ export default [
             datasetAdminKey
         },
         Mutation: {
-            categoriseItem: () => {
-                throw new Error("Not Implemented");
-            },
             deleteCategorisationKey: () => {
                 throw new Error("Not Implemented");
             },
@@ -28,9 +28,6 @@ export default [
                 throw new Error("Not Implemented");
             },
             deleteDatasetCategory: () => {
-                throw new Error("Not Implemented");
-            },
-            getItemToCategorise: () => {
                 throw new Error("Not Implemented");
             },
             updateCategorisationKey: () => {
@@ -42,6 +39,8 @@ export default [
             createAnonymousDataset,
             addDatasetItems,
             addDatasetCategory,
-            addCategorisationKey
+            addCategorisationKey,
+            categoriseItem,
+            getItemToCategorise
         },
     }];
