@@ -68,9 +68,9 @@ describe("StorageDatasource :: Integration using SQLite3", () => {
         const datasource = new StorageDatasource(STORAGE);
 
         const loaded0 = await datasource.getDatasetAdminKeyForId(insertedId0);
-        expect(loaded0.dataset_id).toBe(inserts[0].dataset_id);
+        expect(loaded0?.dataset_id).toBe(inserts[0].dataset_id);
         const loaded1 = await datasource.getDatasetAdminKeyForId(insertedId1);
-        expect(loaded1.dataset_id).toBe(inserts[1].dataset_id);
+        expect(loaded1?.dataset_id).toBe(inserts[1].dataset_id);
     });
     test("DatasetCategory Batch Loaded", async () => {
         // Create a pair of datasets:

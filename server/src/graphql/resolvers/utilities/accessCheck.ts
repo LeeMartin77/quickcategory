@@ -19,8 +19,9 @@ export const canAccessDataset = async (
         dataset_id, 
         hashed_admin_secret, 
         admin_secret_salt 
-    } = await storage.getDatasetAdminKeyForId(accessId);
+    } = await storage.getDatasetAdminKeyForId(accessId) ?? {};
     if (
+        !hashed_admin_secret || !admin_secret_salt || !id || !dataset_id ||
         hashWithSalt(accessSecret, admin_secret_salt) !== hashed_admin_secret
         || (check_dataset_id !== undefined && dataset_id !== check_dataset_id)
     ) {

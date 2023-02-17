@@ -76,7 +76,7 @@ export class StorageDatasource {
         return this._batchDataset.load(id);
     }
 
-    public async getDatasetAdminKeyForId(id: string): Promise<DatasetAdminKey> {
+    public async getDatasetAdminKeyForId(id: string): Promise<DatasetAdminKey | undefined> {
         return this._batchDatasetAdminKey.load(id);
     }
 
