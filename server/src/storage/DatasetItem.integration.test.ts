@@ -62,5 +62,40 @@ describe.each(configs)(
             expect(endRes.isOk()).toBeTruthy();
             expect(endRes._unsafeUnwrap()).toEqual([]);
         });
+        test("Excludes provided IDs", async () => {
+            const datasetId = randomUUID();
+            const startRes = await config.storage.datasetItem
+                .readItems([datasetId], testClient);
+            expect(startRes.isOk()).toBeTruthy();
+            expect(startRes._unsafeUnwrap()).toEqual([]);
+            const items: Parameters<StoreDatasetItems>[0] = [
+                {
+                    dataset_id: datasetId,
+                    values: [{ index: 0, value: randomUUID()}]
+                },
+                {
+                    dataset_id: datasetId,
+                    values: [{ index: 0, value: randomUUID()}]
+                }
+            ];
+
+            const storedRes = await config.storage.datasetItem
+                .storeItems(items, testClient);
+
+            expect(storedRes.isOk()).toBeTruthy();
+            
+            const stored = storedRes._unsafeUnwrap();
+
+            expect(stored.map(x => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { id, ...ret } = x;
+                return ret;
+            })).toEqual(items);
+            
+            const retRes = await config.storage.datasetItem
+                .readItemsExcept([datasetId], [stored[0].id], testClient);
+            expect(retRes.isOk()).toBeTruthy();
+            expect(retRes._unsafeUnwrap()).toEqual([stored[1]]);
+        });
     }
 );
