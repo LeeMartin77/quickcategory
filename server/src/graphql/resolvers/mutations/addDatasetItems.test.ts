@@ -1,16 +1,17 @@
 import { AnonAccessParameter, GQLContext } from "../../types";
-import { addDatasetItems, storageItemsToGqlItems } from "./addDatasetItems";
+import { addDatasetItems } from "./addDatasetItems";
 import { canAccessDataset } from "../utilities/accessCheck";
 import { randomUUID } from "node:crypto";
 import { ok } from "neverthrow";
+import { storageItemsToGqlItems } from "../utilities/gqlDatasetItemFromStorage";
 
 jest.mock("../utilities/accessCheck");
 
 describe("addDatasetItems", () => {
     test("Happy Path", async () => {
         const saveItems = [
-            ["val0-0", "val0-1"],
-            ["val1-0", "val1-1"]
+            { value: ["val0-0", "val0-1"]},
+            { value: ["val1-0", "val1-1"]}
         ];
         const args = {
             access: { whoami: "fakeaccess" } as unknown as AnonAccessParameter["access"],
@@ -28,7 +29,7 @@ describe("addDatasetItems", () => {
             return {
                 id: randomUUID(),
                 dataset_id: args.datasetId,
-                values: item.map((value, index) => ({ index, value }))
+                values: item.value.map((value, index) => ({ index, value }))
             };
         });
 
@@ -60,7 +61,7 @@ describe("addDatasetItems", () => {
             args.items.map(item => {
                 return {
                     dataset_id: args.datasetId,
-                    values: item.map((value, index) => ({ index, value }))
+                    values: item.value.map((value, index) => ({ index, value }))
                 };
             })
         );

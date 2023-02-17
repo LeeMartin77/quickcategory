@@ -1,6 +1,6 @@
 import { GQLContext } from "../../types";
 import { DatasetCategory } from "../../../storage/types/DatasetCategory";
-import { DatasetItem } from "../../../storage/types/DatasetItem";
+import { GqlDatasetItem, storageItemsToGqlItems } from "../utilities/gqlDatasetItemFromStorage";
 
 const value_info = async (
     {id}: {id: string},
@@ -48,12 +48,13 @@ export const Dataset = {
     ) => {
         return storage.getDatasetCategorisationKeysForDatasetId(id);
     },
-    items: (
+    items: async (
         {id}: {id: string},
         __: never,
         { dataSources: { storage }}: GQLContext
-    ): Promise<DatasetItem[]> => {
-        return storage.getDatasetItemsForDatasetId(id);
+    ): Promise<GqlDatasetItem[]> => {
+        const raw_items = await storage.getDatasetItemsForDatasetId(id);
+        return storageItemsToGqlItems(raw_items);
     },
     item_count: async (
         {id}: {id: string},

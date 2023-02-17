@@ -50,7 +50,9 @@ describe("Create Dataset e2e", () => {
             access,
             datasetId: dataset_id,
             categoryKey: "some-cat-key",
-            categoryName: "Some Category Name"
+            categoryName: "Some Category Name",
+            categorisationLabel: "Some Categorisation Label",
+            items: [{ value: ["Something"]}]
         };
         
         const { data: extraData, errors: extraErrors } = await client.mutate({
@@ -60,6 +62,8 @@ describe("Create Dataset e2e", () => {
                         $datasetId: String!
                         $categoryKey: String!
                         $categoryName: String!
+                        $categorisationLabel: String!
+                        $items: [DatasetItemInput!]!
                     ) {
                         addDatasetCategory(
                             access: $access,
@@ -69,6 +73,20 @@ describe("Create Dataset e2e", () => {
                         ) {
                             key
                             name
+                        }
+                        addCategorisationKey(
+                            access: $access,
+                            datasetId: $datasetId,
+                            label: $categorisationLabel,
+                        ) {
+                            id
+                        }
+                        addDatasetItems(
+                            access: $access,
+                            datasetId: $datasetId,
+                            items: $items
+                        ) {
+                            id
                         }
                     }
                 `,
@@ -90,6 +108,12 @@ describe("Create Dataset e2e", () => {
                                 key,
                                 name
                             }
+                            categorisation_keys {
+                                label
+                            }
+                            items {
+                                value
+                            }
                         }
                     }
                 }
@@ -108,5 +132,9 @@ describe("Create Dataset e2e", () => {
         
         expect(readData.datasetAdminKey.data_set.categories[0].key)
             .toBe(extraDataVariables.categoryKey);
+        expect(readData.datasetAdminKey.data_set.categorisation_keys[0].label)
+            .toBe(extraDataVariables.categorisationLabel);
+        expect(readData.datasetAdminKey.data_set.items[0].value)
+            .toEqual(extraDataVariables.items[0].value);
     });
 });
