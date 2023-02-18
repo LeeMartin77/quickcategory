@@ -5,8 +5,6 @@ import { getItemToCategorise } from "./getItemToCategorise";
 import { DatasetItem } from "../../../storage/types/DatasetItem";
 import { storageItemToGqlItem } from "../utilities/gqlDatasetItemFromStorage";
 
-jest.mock("../utilities/accessCheck");
-
 describe("getItemToCategorise", () => {
     test("Key not found - throws GQL Exception", async () => {
         const categorisationKeyId = randomUUID();
