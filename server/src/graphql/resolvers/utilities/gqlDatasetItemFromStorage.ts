@@ -6,14 +6,16 @@ export type GqlDatasetItem = {
     value: string[]
 }
 
+export const storageItemToGqlItem = (item: DatasetItem): GqlDatasetItem => {
+    item.values.sort((a, b) => a.index - b.index);
+    return {
+        dataset_id: item.dataset_id,
+        id: item.id,
+        value: item.values.map(x => x.value)
+    };
+};
+
 export const storageItemsToGqlItems = (sItems: DatasetItem[]): 
     GqlDatasetItem[] => {
-    return sItems.map(item => {
-        item.values.sort((a, b) => a.index - b.index);
-        return {
-            dataset_id: item.dataset_id,
-            id: item.id,
-            value: item.values.map(x => x.value)
-        };
-    });
+    return sItems.map(storageItemToGqlItem);
 };
