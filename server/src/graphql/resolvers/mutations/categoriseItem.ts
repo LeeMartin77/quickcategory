@@ -5,12 +5,12 @@ import { GQLContext } from "../../types";
 type GetItemToCategoriseArgs = {
     categorisationKeyId: string
     itemId: string,
-    categoryId: string
+    categoryKey: string
 };
 
 export const categoriseItem = async (
     _: object,
-    { categorisationKeyId, itemId, categoryId }: GetItemToCategoriseArgs,
+    { categorisationKeyId, itemId, categoryKey }: GetItemToCategoriseArgs,
     { dataSources: { storage }, state: { itemCategorisation }}: GQLContext
 ): Promise<{ success: boolean }> => {
     const catKey = await storage
@@ -30,7 +30,7 @@ export const categoriseItem = async (
         });
     const categories = await storage
         .getDatasetCategoriesForDatasetId(catKey.dataset_id);
-    if (!categories.some(x => x.key === categoryId))
+    if (!categories.some(x => x.key === categoryKey))
         throw new GraphQLError("Invalid Category Id", {
             extensions: { code: ApolloServerErrorCode.BAD_USER_INPUT },
         });
@@ -40,7 +40,7 @@ export const categoriseItem = async (
     );
     await storage.storage.datasetItemCategorisation.storeCategorisation({
         dataset_id: catKey.dataset_id,
-        category_key: categoryId,
+        category_key: categoryKey,
         item_id: itemId,
         key_id: catKey.id
     });

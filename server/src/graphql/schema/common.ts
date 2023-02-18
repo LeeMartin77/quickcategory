@@ -27,7 +27,7 @@ type CategorisationResult {
 }
 
 type Mutation {
-    categoriseItem(categorisationKeyId: String!, itemId: String!, categoryId: String!): CategorisationResult!
+    categoriseItem(categorisationKeyId: String!, itemId: String!, categoryKey: String!): CategorisationResult!
 
     getItemToCategorise(categorisationKeyId: String!): DatasetItem
 }

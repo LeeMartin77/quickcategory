@@ -8,7 +8,7 @@ describe("getItemToCategorise", () => {
         const args = {
             categorisationKeyId,
             itemId: randomUUID(),
-            categoryId: randomUUID()
+            categoryKey: randomUUID()
         };
 
         const getDatasetCategorisationKeyForId =
@@ -36,7 +36,7 @@ describe("getItemToCategorise", () => {
         const args = {
             categorisationKeyId,
             itemId: randomUUID(),
-            categoryId: randomUUID()
+            categoryKey: randomUUID()
         };
 
         const getDatasetCategorisationKeyForId =
@@ -73,7 +73,7 @@ describe("getItemToCategorise", () => {
         const args = {
             categorisationKeyId,
             itemId: randomUUID(),
-            categoryId: randomUUID()
+            categoryKey: randomUUID()
         };
 
         const getDatasetCategorisationKeyForId =
@@ -114,7 +114,7 @@ describe("getItemToCategorise", () => {
         const args = {
             categorisationKeyId,
             itemId: randomUUID(),
-            categoryId: randomUUID()
+            categoryKey: randomUUID()
         };
 
         const getDatasetCategorisationKeyForId =
@@ -129,7 +129,7 @@ describe("getItemToCategorise", () => {
         const getDatasetCategoriesForDatasetId =
             jest.fn().mockResolvedValue([
                 {
-                    key: args.categoryId
+                    key: args.categoryKey
                 }
             ]);
         
@@ -167,7 +167,7 @@ describe("getItemToCategorise", () => {
         expect(storeCategorisation)
             .toBeCalledWith({
                 dataset_id,
-                category_key: args.categoryId,
+                category_key: args.categoryKey,
                 item_id: args.itemId,
                 key_id: categorisationKeyId
             });
