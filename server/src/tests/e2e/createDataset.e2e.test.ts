@@ -4,7 +4,7 @@ import { randomUUID } from "crypto";
 
 
 describe("Create Dataset e2e", () => {
-    test("Happy Path: Create then read a dataset", async () => {
+    test("Happy Path: Create, Read, then Categorise a Dataset", async () => {
 
         const client = new ApolloClient({
             uri: process.env.QUICKCATEGORY_E2E_ENDPOINT ?? "http://localhost:3012/api/graphql",
@@ -109,6 +109,7 @@ describe("Create Dataset e2e", () => {
                                 name
                             }
                             categorisation_keys {
+                                id
                                 label
                             }
                             items {
@@ -136,5 +137,63 @@ describe("Create Dataset e2e", () => {
             .toBe(extraDataVariables.categorisationLabel);
         expect(readData.datasetAdminKey.data_set.items[0].value)
             .toEqual(extraDataVariables.items[0].value);
+
+
+        const startCategorising =  {
+            categorisationKeyId: readData
+                .datasetAdminKey.data_set.categorisation_keys[0].id,
+        };
+    
+        const { data: catItem } = await client.mutate({
+            mutation: gql`
+                    mutation StartCategorising($categorisationKeyId: String!) {
+                        getItemToCategorise(categorisationKeyId: $categorisationKeyId) {
+                            dataset_id
+                            id
+                            value_info {
+                                index
+                                type
+                                label
+                            }
+                            categories {
+                                key
+                            }
+                            value
+                        }
+                    }
+                `,
+            variables: startCategorising
+        });
+    
+        expect(catItem).not.toBeUndefined();
+    
+        expect(catItem.getItemToCategorise.id).toBeTruthy();
+        
+
+        const categoriseItem =  {
+            categorisationKeyId: readData
+                .datasetAdminKey.data_set.categorisation_keys[0].id,
+            itemId: catItem.getItemToCategorise.id,
+            categoryKey: catItem.getItemToCategorise.categories[0].key
+        };
+    
+        const { data: successful } = await client.mutate({
+            mutation: gql`
+                    mutation Categorise($categorisationKeyId: String!, $itemId: String!, $categoryKey: String!) {
+                        categoriseItem(
+                            categorisationKeyId: $categorisationKeyId,
+                            itemId: $itemId,
+                            categoryKey: $categoryKey
+                        ) {
+                            success
+                        }
+                    }
+                `,
+            variables: categoriseItem
+        });
+    
+        expect(successful).not.toBeUndefined();
+    
+        expect(successful.categoriseItem.success).toBeTruthy();
     });
 });
