@@ -25,6 +25,12 @@ export type RetreiveDatasetItems = (
   client?: any
 ) => ResultAsync<DatasetItem[], StorageError>;
 
+export type RetreiveDatasetItemsByIds = (
+  dataset_id: DatasetItem["dataset_id"],
+  ids: DatasetItem["id"][],
+  client?: any
+) => ResultAsync<DatasetItem[], StorageError>;
+
 export type RetreiveDatasetItemsExcept = (
   dataset_ids: DatasetItem["dataset_id"][],
   exclusion_ids: DatasetItem["id"][],
@@ -34,6 +40,7 @@ export type RetreiveDatasetItemsExcept = (
 export interface DatasetItemStorage {
   storeItems: StoreDatasetItems;
   deleteItem: DeleteDatasetItem;
+  readItemsById: RetreiveDatasetItemsByIds;
   readItems: RetreiveDatasetItems;
   readItemsExcept: RetreiveDatasetItemsExcept;
 }

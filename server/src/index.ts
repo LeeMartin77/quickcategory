@@ -10,6 +10,7 @@ import resolvers from "./graphql/resolvers";
 import { StorageDatasource } from "./graphql/datasources/StorageDatasource";
 import { STORAGE } from "./storage";
 import { GQLContext } from "./graphql/types";
+import { STATE } from "./state";
 
 const port = process.env.QUICKCATEGORY_PORT || 3012;
 
@@ -38,6 +39,7 @@ apollo.start().then(() => {
                     dataSources: {
                         storage: new StorageDatasource(STORAGE)
                     },
+                    state: STATE,
                     token
                 };}
         }

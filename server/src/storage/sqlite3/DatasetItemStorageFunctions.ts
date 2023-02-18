@@ -99,3 +99,26 @@ export const readItemsExcept: DI.RetreiveDatasetItemsExcept = (
         () => new SystemError()
     );
 };
+
+export const readItemsById: DI.RetreiveDatasetItemsByIds = (
+    datasetId,
+    itemIds,
+    knex: Knex = knexInstance
+) => {
+    return ResultAsync.fromPromise(
+        knex.select<SQLiteDatasetItem[]>()
+            .from("dataset_item")
+            .where("dataset_id", datasetId)
+            .whereIn("id", itemIds)
+            .then(res => {
+                return res.map(item => {
+                    const { values_string, ...rest} = item;
+                    return {
+                        values: JSON.parse(values_string),
+                        ...rest
+                    };
+                });
+            }), 
+        () => new SystemError()
+    );
+};

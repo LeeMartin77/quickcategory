@@ -1,6 +1,7 @@
 import { configs } from "./_testConfigs";
 import { randomUUID } from "crypto";
 import { StoreDatasetItems } from "./types/DatasetItem";
+import { readItemsById } from "./sqlite3/DatasetItemStorageFunctions";
 
 describe.each(configs)(
     "$name DatasetItem Storage Tests",
@@ -47,6 +48,10 @@ describe.each(configs)(
                 .readItems([datasetId], testClient);
             expect(retRes.isOk()).toBeTruthy();
             expect(retRes._unsafeUnwrap()).toEqual(stored);
+
+            expect((await readItemsById(datasetId, [stored[0].id], testClient))
+                ._unsafeUnwrap())
+                .toEqual([stored[0]]);
 
             const delRes = await Promise.all(
                 stored.map(s => 
