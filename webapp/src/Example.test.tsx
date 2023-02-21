@@ -6,8 +6,24 @@ import Example, { TEST_QUERY } from "./Example";
 
 test("loads and displays greeting", async () => {
     // ARRANGE
+    const mocks = [
+        {
+            request: {
+                query: TEST_QUERY,
+
+                variables: {},
+            },
+
+            result: {
+                data: {
+                    test: { hello: "test-world" },
+                },
+            },
+        },
+    ];
+
     render(
-        <MockedProvider>
+        <MockedProvider mocks={mocks}>
             <Example />
         </MockedProvider>
     );
