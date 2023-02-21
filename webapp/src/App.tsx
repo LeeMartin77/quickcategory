@@ -1,11 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-
-function Home() {
-    return <div>Home</div>;
-}
-function NotFound() {
-    return <div>Not Found</div>;
-}
+import Home from "./views/Home";
+import NotFound from "./views/NotFound";
 
 export default function App() {
     return (
