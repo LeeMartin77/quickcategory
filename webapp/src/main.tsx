@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ThemeProvider, BaseStyles } from "@primer/react";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
 
@@ -12,11 +12,13 @@ const client = new ApolloClient({
 });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-    <ChakraProvider>
-        <ApolloProvider client={client}>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </ApolloProvider>
-    </ChakraProvider>
+    <ThemeProvider>
+        <BaseStyles>
+            <ApolloProvider client={client}>
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>
+            </ApolloProvider>
+        </BaseStyles>
+    </ThemeProvider>
 );

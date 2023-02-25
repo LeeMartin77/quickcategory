@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import reactLogo from "./assets/react.svg";
 import "./Example.css";
-import { Button } from "@chakra-ui/react";
+import { Button } from "@primer/react";
 
 export const TEST_QUERY = gql`
   query Test {
@@ -30,7 +30,6 @@ function Example() {
             <h1>Vite + React</h1>
             <div className="card">
                 <Button
-                    colorScheme="blue"
                     onClick={() => setCount((count) => count + 1)}
                 >
           count is {count}

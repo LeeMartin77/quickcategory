@@ -1,7 +1,7 @@
 import { Knex } from "knex";
 import { knexInstance } from ".";
 import * as DC from "../types/DatasetCategory";
-import { NotFoundError, SystemError, ValidationError } from "../types/StorageErrors";
+import { SystemError, ValidationError } from "../types/StorageErrors";
 import { errAsync, ResultAsync } from "neverthrow";
 import { isValidCategory } from "../validation/DatasetCategoryValidation";
 
